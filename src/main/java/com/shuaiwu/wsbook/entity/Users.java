@@ -7,8 +7,10 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Transient;
 
 /**
  * <p>
@@ -48,6 +50,12 @@ public class Users implements Serializable {
      */
     @TableField("status")
     private Byte status;
+
+    @TableField("email")
+    private String email;
+
+    @TableField("phone")
+    private String phone;
 
     /**
      * 创建时间

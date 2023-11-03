@@ -1,6 +1,6 @@
 package com.shuaiwu.wsbook.config;
 
-import net.shuaiwu.booksystem.utils.RedisObjectMapper;
+import com.shuaiwu.wsbook.utils.RedisObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;

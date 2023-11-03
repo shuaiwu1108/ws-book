@@ -3,9 +3,9 @@ package com.shuaiwu.wsbook.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import net.shuaiwu.booksystem.entity.Users;
-import net.shuaiwu.booksystem.mapper.UsersMapper;
-import net.shuaiwu.booksystem.service.IUsersService;
+import com.shuaiwu.wsbook.entity.Users;
+import com.shuaiwu.wsbook.mapper.UsersMapper;
+import com.shuaiwu.wsbook.service.IUsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

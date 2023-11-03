@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .antMatchers("/**/*.css","/**/*.js","/imgs/**", "/**/*.html").permitAll()
             .antMatchers("/api/user/login", "/api/user/logout").permitAll()
-            .antMatchers("/booksystem/menu/doc").permitAll()
+            .antMatchers("/booksystem/menu/doc", "/v3/**").permitAll()
             .anyRequest().authenticated()
             .and()
 //            .formLogin().permitAll()
@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource)
             .usersByUsernameQuery("SELECT username,password,status as enabled FROM users WHERE username=? and status=1")
-            .authoritiesByUsernameQuery("SELECT u.username,r.rolename role FROM user_roles ur"
+            .authoritiesByUsernameQuery("SELECT u.username,r.rolecode role FROM user_roles ur"
                 + " join users u on ur.user_id=u.id and u.status=1 "
                 + " join roles r on ur.role_id=r.id and r.status=1 "
                 + " WHERE u.username=?")

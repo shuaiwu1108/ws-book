@@ -2,7 +2,7 @@ package com.shuaiwu.wsbook.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import net.shuaiwu.booksystem.entity.Users;
+import com.shuaiwu.wsbook.entity.Users;
 
 /**
  * <p>

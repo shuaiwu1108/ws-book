@@ -1,7 +1,7 @@
 package com.shuaiwu.wsbook.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import net.shuaiwu.booksystem.entity.Roles;
+import com.shuaiwu.wsbook.entity.Roles;
 
 /**
  * <p>

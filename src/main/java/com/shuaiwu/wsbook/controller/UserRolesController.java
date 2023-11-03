@@ -2,8 +2,8 @@ package com.shuaiwu.wsbook.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import net.shuaiwu.booksystem.entity.UserRoles;
-import net.shuaiwu.booksystem.service.IUserRolesService;
+import com.shuaiwu.wsbook.entity.UserRoles;
+import com.shuaiwu.wsbook.service.IUserRolesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;

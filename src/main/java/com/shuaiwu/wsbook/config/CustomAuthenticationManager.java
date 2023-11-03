@@ -1,8 +1,8 @@
 package com.shuaiwu.wsbook.config;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import net.shuaiwu.booksystem.entity.Users;
-import net.shuaiwu.booksystem.service.IUsersService;
+import com.shuaiwu.wsbook.entity.Users;
+import com.shuaiwu.wsbook.service.IUsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;

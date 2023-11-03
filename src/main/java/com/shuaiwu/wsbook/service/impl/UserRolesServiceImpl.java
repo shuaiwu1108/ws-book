@@ -1,9 +1,9 @@
 package com.shuaiwu.wsbook.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import net.shuaiwu.booksystem.entity.UserRoles;
-import net.shuaiwu.booksystem.mapper.UserRolesMapper;
-import net.shuaiwu.booksystem.service.IUserRolesService;
+import com.shuaiwu.wsbook.entity.UserRoles;
+import com.shuaiwu.wsbook.mapper.UserRolesMapper;
+import com.shuaiwu.wsbook.service.IUserRolesService;
 import org.springframework.stereotype.Service;
 
 /**

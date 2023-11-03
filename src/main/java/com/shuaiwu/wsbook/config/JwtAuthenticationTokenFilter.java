@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.ContentCachingRequestWrapper;
 
 @Slf4j
 @Component
@@ -29,9 +30,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        // 使用Caching包装，避免controller无法获取request请求参数
+        ContentCachingRequestWrapper requestWrapper = new  ContentCachingRequestWrapper(request);
         try {
             // 从请求头中获取 JWT
-            String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+            String token = requestWrapper.getHeader(HttpHeaders.AUTHORIZATION);
             if (StringUtils.isNotBlank(token)) {
                 if(token.startsWith("Bearer ")){
                     token = token.substring(7);
@@ -47,14 +50,13 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                     // 如果用户存在，将用户信息存储到 SecurityContext 中
                     if (userDetails != null) {
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(requestWrapper));
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     }
                 }
             }else{
-                log.info("doFilterInternal token is empty [{}]", request.getRequestURI());
+                log.info("doFilterInternal token is empty [{}]", requestWrapper.getRequestURI());
             }
-
         } catch (Exception e) {
             logger.error("Could not set user authentication in security context", e);
         }

@@ -3,7 +3,7 @@ package com.shuaiwu.wsbook.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import net.shuaiwu.booksystem.entity.Users;
+import com.shuaiwu.wsbook.entity.Users;
 
 /**
  * <p>

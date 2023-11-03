@@ -1,7 +1,7 @@
 package com.shuaiwu.wsbook.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import net.shuaiwu.booksystem.entity.Roles;
+import com.shuaiwu.wsbook.entity.Roles;
 
 /**
  * <p>
