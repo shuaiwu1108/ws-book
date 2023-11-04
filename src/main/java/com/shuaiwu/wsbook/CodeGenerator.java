@@ -25,12 +25,12 @@ public class CodeGenerator {
                     return typeRegistry.getColumnType(metaInfo);
                 }))
             .packageConfig(builder -> {
-                builder.parent("net.shuaiwu") // 设置父包名
-                    .moduleName("booksystem") // 设置父包模块名
+                builder.parent("com.shuaiwu") // 设置父包名
+                    .moduleName("wsbook") // 设置父包模块名
                 ;
             })
             .strategyConfig(builder -> {
-                builder.addInclude("menu,role_menu") // 设置需要生成的表名
+                builder.addInclude("menu") // 设置需要生成的表名
                     .entityBuilder().enableLombok().enableTableFieldAnnotation().enableFileOverride()
                     .controllerBuilder().enableRestStyle().enableFileOverride()
                     .serviceBuilder().enableFileOverride()

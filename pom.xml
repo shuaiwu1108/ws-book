@@ -6,7 +6,7 @@
     <artifactId>ws-book</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ws-book</name>
-    <description>基于微服务的读书系统</description>
+    <description>后台管理系统</description>
 
     <properties>
         <java.version>1.8</java.version>
