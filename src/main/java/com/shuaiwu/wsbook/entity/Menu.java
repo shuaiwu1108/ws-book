@@ -44,6 +44,9 @@ public class Menu implements Serializable {
     @TableField("icon")
     private String icon;
 
+    @TableField("component")
+    private String component;
+
     @TableField("status")
     private Byte status;
 

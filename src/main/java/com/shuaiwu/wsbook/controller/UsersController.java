@@ -172,7 +172,6 @@ public class UsersController {
 
     @PostMapping("login")
     public Object login(@RequestBody Map<String, String> loginParams){
-        log.info("start login from front: {}", JSONUtil.toJsonStr(loginParams));
         // 对用户名和密码进行验证
         Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
