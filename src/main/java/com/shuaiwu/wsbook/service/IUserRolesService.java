@@ -1,7 +1,7 @@
 package com.shuaiwu.wsbook.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.shuaiwu.wsbook.entity.UserRoles;
+import com.shuaiwu.wsbook.entity.UsersRoles;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.shuaiwu.wsbook.entity.UserRoles;
  * @author shuaiwu
  * @since 2023-09-18
  */
-public interface IUserRolesService extends IService<UserRoles> {
+public interface IUserRolesService extends IService<UsersRoles> {
 
 }

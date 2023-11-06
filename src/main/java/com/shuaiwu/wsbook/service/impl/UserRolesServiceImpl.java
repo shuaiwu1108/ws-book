@@ -1,7 +1,7 @@
 package com.shuaiwu.wsbook.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shuaiwu.wsbook.entity.UserRoles;
+import com.shuaiwu.wsbook.entity.UsersRoles;
 import com.shuaiwu.wsbook.mapper.UserRolesMapper;
 import com.shuaiwu.wsbook.service.IUserRolesService;
 import org.springframework.stereotype.Service;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2023-09-18
  */
 @Service
-public class UserRolesServiceImpl extends ServiceImpl<UserRolesMapper, UserRoles> implements IUserRolesService {
+public class UserRolesServiceImpl extends ServiceImpl<UserRolesMapper, UsersRoles> implements IUserRolesService {
 
 }

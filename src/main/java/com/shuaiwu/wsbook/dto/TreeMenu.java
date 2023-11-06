@@ -12,6 +12,7 @@ public class TreeMenu {
     private String path;
     private String title;
     private String icon;
+    private String component;
     private Byte status;
     private Byte hidden;
     private List<TreeMenu> children;

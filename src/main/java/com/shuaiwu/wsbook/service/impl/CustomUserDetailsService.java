@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import com.shuaiwu.wsbook.entity.Roles;
-import com.shuaiwu.wsbook.entity.UserRoles;
+import com.shuaiwu.wsbook.entity.UsersRoles;
 import com.shuaiwu.wsbook.entity.Users;
 import com.shuaiwu.wsbook.service.IRolesService;
 import com.shuaiwu.wsbook.service.IUserRolesService;
@@ -32,8 +32,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         Users users = iUsersService.getOne(new LambdaQueryWrapper<Users>().eq(Users::getUsername, username));
         if (users == null)
             new UsernameNotFoundException("User not found with username: " + username);
-        List<UserRoles> userRolesList = iUserRolesService.list(new LambdaQueryWrapper<UserRoles>().eq(UserRoles::getUserId, users.getId()));
-        Set<Long> rolesIds = userRolesList.stream().map(UserRoles::getRoleId).collect(Collectors.toSet());
+        List<UsersRoles> usersRolesList = iUserRolesService.list(new LambdaQueryWrapper<UsersRoles>().eq(
+            UsersRoles::getUserId, users.getId()));
+        Set<Long> rolesIds = usersRolesList.stream().map(UsersRoles::getRoleId).collect(Collectors.toSet());
         List<Roles> rolesList = iRolesService.list(new LambdaQueryWrapper<Roles>().in(Roles::getId, rolesIds));
         Set<String> rolesNames = rolesList.stream().map(Roles::getRolecode).collect(Collectors.toSet());
 

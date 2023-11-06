@@ -1,7 +1,7 @@
 package com.shuaiwu.wsbook.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.shuaiwu.wsbook.entity.UserRoles;
+import com.shuaiwu.wsbook.entity.UsersRoles;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.shuaiwu.wsbook.entity.UserRoles;
  * @author shuaiwu
  * @since 2023-09-18
  */
-public interface UserRolesMapper extends BaseMapper<UserRoles> {
+public interface UserRolesMapper extends BaseMapper<UsersRoles> {
 
 }

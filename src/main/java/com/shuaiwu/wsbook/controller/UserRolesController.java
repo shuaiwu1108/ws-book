@@ -2,7 +2,7 @@ package com.shuaiwu.wsbook.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import com.shuaiwu.wsbook.entity.UserRoles;
+import com.shuaiwu.wsbook.entity.UsersRoles;
 import com.shuaiwu.wsbook.service.IUserRolesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -38,7 +38,7 @@ public class UserRolesController {
     @Operation(summary = "新增用户角色关联")
     @PutMapping("save")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public Object put(@RequestBody UserRoles userRoles){
-        return iUserRolesService.save(userRoles);
+    public Object put(@RequestBody UsersRoles usersRoles){
+        return iUserRolesService.save(usersRoles);
     }
 }

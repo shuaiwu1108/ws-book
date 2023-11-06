@@ -3,9 +3,7 @@ package com.shuaiwu.wsbook.controller;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.ArrayList;
@@ -20,7 +18,7 @@ import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import com.shuaiwu.wsbook.config.JwtTokenProvider;
 import com.shuaiwu.wsbook.entity.Roles;
-import com.shuaiwu.wsbook.entity.UserRoles;
+import com.shuaiwu.wsbook.entity.UsersRoles;
 import com.shuaiwu.wsbook.entity.Users;
 import com.shuaiwu.wsbook.service.IRolesService;
 import com.shuaiwu.wsbook.service.IUserRolesService;
@@ -68,8 +66,9 @@ public class UsersController {
     public Object getInfo(Authentication authentication){
         String currentUserName = authentication.getName();
         Users users = iUsersService.getOne(new LambdaQueryWrapper<Users>().eq(Users::getUsername, currentUserName));
-        List<UserRoles> userRolesList = iUserRolesService.list(new LambdaQueryWrapper<UserRoles>().eq(UserRoles::getUserId, users.getId()));
-        Set<Long> rolesIds = userRolesList.stream().map(UserRoles::getRoleId).collect(Collectors.toSet());
+        List<UsersRoles> usersRolesList = iUserRolesService.list(new LambdaQueryWrapper<UsersRoles>().eq(
+            UsersRoles::getUserId, users.getId()));
+        Set<Long> rolesIds = usersRolesList.stream().map(UsersRoles::getRoleId).collect(Collectors.toSet());
         List<Roles> rolesList = iRolesService.list(new LambdaQueryWrapper<Roles>().in(Roles::getId, rolesIds));
         Map<Object, Object> resMap = MapUtil.builder().put("roles", rolesList.stream().map(Roles::getRolecode).collect(Collectors.toSet()))
             .put("name", currentUserName)
@@ -88,8 +87,9 @@ public class UsersController {
     @PostMapping("getUserRoles")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Object getUserRoles(@RequestBody Users users){
-        List<UserRoles> userRolesList = iUserRolesService.list(new LambdaQueryWrapper<UserRoles>().eq(UserRoles::getUserId, users.getId()));
-        Set<Long> rolesIds = userRolesList.stream().map(UserRoles::getRoleId).collect(Collectors.toSet());
+        List<UsersRoles> usersRolesList = iUserRolesService.list(new LambdaQueryWrapper<UsersRoles>().eq(
+            UsersRoles::getUserId, users.getId()));
+        Set<Long> rolesIds = usersRolesList.stream().map(UsersRoles::getRoleId).collect(Collectors.toSet());
         List<Roles> rolesList = new ArrayList<>();
         if (rolesIds.isEmpty()){
 
@@ -111,18 +111,18 @@ public class UsersController {
         Long userId = jsonObject.getLong("id");
 
         // 删除用户的所有角色
-        iUserRolesService.remove(new LambdaQueryWrapper<UserRoles>().eq(UserRoles::getUserId, userId));
+        iUserRolesService.remove(new LambdaQueryWrapper<UsersRoles>().eq(UsersRoles::getUserId, userId));
 
         // 循环添加用户的角色
         List<Long> roleIdsl = roleIds.toList(Long.class);
-        List<UserRoles> userRolesList = new ArrayList<>();
+        List<UsersRoles> usersRolesList = new ArrayList<>();
         for (Long roleId : roleIdsl) {
-            UserRoles userRoles = new UserRoles();
-            userRoles.setUserId(userId);
-            userRoles.setRoleId(roleId);
-            userRolesList.add(userRoles);
+            UsersRoles usersRoles = new UsersRoles();
+            usersRoles.setUserId(userId);
+            usersRoles.setRoleId(roleId);
+            usersRolesList.add(usersRoles);
         }
-        boolean flag = iUserRolesService.saveBatch(userRolesList);
+        boolean flag = iUserRolesService.saveBatch(usersRolesList);
 
         return MapUtil.builder()
             .put("data", flag)

@@ -38,34 +38,8 @@ public class MenuController {
     @GetMapping("query")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Object query(){
-        List<Menu> menuList = iMenuService.list();
-        List<TreeMenu> treeMenuList = new ArrayList<>();
-
-        for(Menu m : menuList){
-            if(m.getParentId() != null){
-                continue;
-            }
-            TreeMenu tmp = new TreeMenu();
-            tmp.setChildren(new ArrayList<>());
-            BeanUtil.copyProperties(m, tmp);
-            treeMenuList.add(tmp);
-        }
-
-        for (TreeMenu tM : treeMenuList){
-            for (Menu m: menuList){
-                if(m.getParentId() == null){
-                    continue;
-                }
-                if(tM.getId() == m.getParentId()){
-                    TreeMenu tmp = new TreeMenu();
-                    BeanUtil.copyProperties(m, tmp);
-                    tM.getChildren().add(tmp);
-                }
-            }
-        }
-
         Map<Object, Object> rr = MapUtil.builder()
-            .put("data", treeMenuList)
+            .put("data", iMenuService.queryAll())
             .put("code", 20000)
             .put("message", "查询成功")
             .build();
