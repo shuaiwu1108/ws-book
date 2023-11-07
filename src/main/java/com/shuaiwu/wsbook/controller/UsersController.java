@@ -4,6 +4,11 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.shuaiwu.wsbook.dto.TreeMenu;
+import com.shuaiwu.wsbook.entity.Menu;
+import com.shuaiwu.wsbook.entity.RolesMenu;
+import com.shuaiwu.wsbook.service.IMenuService;
+import com.shuaiwu.wsbook.service.IRolesMenuService;
 import com.shuaiwu.wsbook.utils.RedisUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -65,18 +70,27 @@ public class UsersController {
     private TokenUtil tokenUtil;
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private IRolesMenuService iRolesMenuService;
+    @Autowired
+    private IMenuService iMenuService;
 
     @GetMapping("info")
     public Object getInfo(Authentication authentication){
         String currentUserName = authentication.getName();
         Users users = iUsersService.getOne(new LambdaQueryWrapper<Users>().eq(Users::getUsername, currentUserName));
-        List<UsersRoles> usersRolesList = iUserRolesService.list(new LambdaQueryWrapper<UsersRoles>().eq(
-            UsersRoles::getUserId, users.getId()));
+        List<UsersRoles> usersRolesList = iUserRolesService.list(new LambdaQueryWrapper<UsersRoles>().eq(UsersRoles::getUserId, users.getId()));
         Set<Long> rolesIds = usersRolesList.stream().map(UsersRoles::getRoleId).collect(Collectors.toSet());
-        List<Roles> rolesList = iRolesService.list(new LambdaQueryWrapper<Roles>().in(Roles::getId, rolesIds));
-        Map<Object, Object> resMap = MapUtil.builder().put("roles", rolesList.stream().map(Roles::getRolecode).collect(Collectors.toSet()))
+        List<Roles> rolesList = iRolesService.listByIds(rolesIds);
+        List<RolesMenu> rolesMenuList = iRolesMenuService.list(new LambdaQueryWrapper<RolesMenu>().in(RolesMenu::getRoleId, rolesIds));
+        Set<Long> menuIds = rolesMenuList.stream().map(RolesMenu::getMenuId).collect(Collectors.toSet());
+        List<TreeMenu> treeMenuList = iMenuService.queryByIds(menuIds);
+
+        Map<Object, Object> resMap = MapUtil.builder()
+            .put("roleCodes", rolesList.stream().map(Roles::getRolecode).collect(Collectors.toSet()))
+            .put("treeMenus", treeMenuList)
             .put("name", currentUserName)
-            .put("avatar", "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif")
+            .put("avatar", users.getAvatar())
             .build();
         Map<Object, Object> rr = MapUtil.builder()
             .put("data", resMap)

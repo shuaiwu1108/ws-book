@@ -57,6 +57,9 @@ public class Users implements Serializable {
     @TableField("phone")
     private String phone;
 
+    @TableField("avatar")
+    private String avatar;
+
     /**
      * 创建时间
      */

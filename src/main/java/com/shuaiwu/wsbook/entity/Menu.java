@@ -38,6 +38,9 @@ public class Menu implements Serializable {
     @TableField("path")
     private String path;
 
+    @TableField("redirect")
+    private String redirect;
+
     @TableField("title")
     private String title;
 

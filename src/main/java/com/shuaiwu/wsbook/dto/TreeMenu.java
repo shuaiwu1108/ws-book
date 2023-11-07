@@ -10,6 +10,7 @@ public class TreeMenu {
     private Long parentId;
     private String name;
     private String path;
+    private String redirect;
     private String title;
     private String icon;
     private String component;

@@ -4,6 +4,7 @@ import com.shuaiwu.wsbook.dto.TreeMenu;
 import com.shuaiwu.wsbook.entity.Menu;
 import com.baomidou.mybatisplus.extension.service.IService;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -16,4 +17,6 @@ import java.util.List;
 public interface IMenuService extends IService<Menu> {
 
     List<TreeMenu> queryAll();
+
+    List<TreeMenu> queryByIds(Set<Long> ids);
 }
