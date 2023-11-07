@@ -20,7 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private DataSource dataSource;
 
     @Autowired
-    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+    private CustomAuthenticationTokenFilter customAuthenticationTokenFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //            .and()
 //            .logout().logoutUrl("/api/user/logout").permitAll()
 //            .and()
-            .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterAfter(customAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
             .csrf().disable()
             ;
     }

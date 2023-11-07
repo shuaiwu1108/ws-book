@@ -1,5 +1,6 @@
 package com.shuaiwu.wsbook.config;
 
+import com.shuaiwu.wsbook.utils.TokenUtil;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -20,10 +21,10 @@ import org.springframework.web.util.ContentCachingRequestWrapper;
 
 @Slf4j
 @Component
-public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
+public class CustomAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    private TokenUtil tokenUtil;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -40,9 +41,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                     token = token.substring(7);
                 }
                 // 验证 JWT 的签名
-                if (jwtTokenProvider.validateToken(token)) {
+                if (tokenUtil.validateToken(token)) {
                     // 从 JWT 中获取用户名
-                    String username = jwtTokenProvider.getUsernameFromToken(token);
+                    String username = tokenUtil.getUsernameFromToken(token);
 
                     // 根据用户名从数据库中加载用户
                     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -53,6 +54,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(requestWrapper));
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     }
+
+                    // 更新token的有效期
+                    tokenUtil.refreshToken(token);
                 }
             }else{
                 log.info("doFilterInternal token is empty [{}]", requestWrapper.getRequestURI());
@@ -60,7 +64,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             logger.error("Could not set user authentication in security context", e);
         }
-
         filterChain.doFilter(request, response);
     }
 }

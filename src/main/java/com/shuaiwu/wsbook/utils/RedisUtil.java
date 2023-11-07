@@ -44,6 +44,7 @@ public class RedisUtil {
     public long getExpire(String key) {
         return redisTemplate.getExpire(key, TimeUnit.SECONDS);
     }
+
     /**
      * 判断key是否存在
      *

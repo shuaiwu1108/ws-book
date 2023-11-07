@@ -1,6 +1,7 @@
 package com.shuaiwu.wsbook.config;
 
 import java.util.HashMap;
+import javax.servlet.ServletException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
@@ -28,6 +29,16 @@ public class GlobalException {
         res.put("code", "50002");
         res.put("status", "error");
         res.put("message", "认证异常");
+        return res;
+    }
+
+    @ExceptionHandler(ServletException.class)
+    public Object tokenValidateException(ServletException e){
+        log.error("异常", e.getMessage());
+        HashMap<String, Object> res = new HashMap<>();
+        res.put("code", 50008);
+        res.put("status", "error");
+        res.put("message", e.getMessage());
         return res;
     }
 

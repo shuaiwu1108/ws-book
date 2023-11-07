@@ -43,8 +43,7 @@ spring:
         locations: classpath:db/migration
         enabled: true
         baselineOnMigrate: true
-jwt:
-    secret: 8cde058f-5c0d-11ee-9a3f-0242ac110002
+token:
     expiration: 7200 #2小时过期
 mybatis-plus:
     mapper-locations: classpath*:mapper/*.xml

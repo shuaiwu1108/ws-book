@@ -4,6 +4,7 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.shuaiwu.wsbook.utils.RedisUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import com.shuaiwu.wsbook.config.JwtTokenProvider;
+import com.shuaiwu.wsbook.utils.TokenUtil;
 import com.shuaiwu.wsbook.entity.Roles;
 import com.shuaiwu.wsbook.entity.UsersRoles;
 import com.shuaiwu.wsbook.entity.Users;
@@ -24,6 +25,7 @@ import com.shuaiwu.wsbook.service.IRolesService;
 import com.shuaiwu.wsbook.service.IUserRolesService;
 import com.shuaiwu.wsbook.service.IUsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -60,7 +62,9 @@ public class UsersController {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    private TokenUtil tokenUtil;
+    @Autowired
+    private RedisUtil redisUtil;
 
     @GetMapping("info")
     public Object getInfo(Authentication authentication){
@@ -181,8 +185,7 @@ public class UsersController {
         );
 
         // 生成 JWT
-        String token = jwtTokenProvider.generateToken(authentication);
-        log.info("token: [{}]", token);
+        String token = tokenUtil.generateToken(authentication);
 
         Map<Object, Object> tokenM = MapUtil.builder().put("token", token).build();
 
@@ -207,6 +210,8 @@ public class UsersController {
         String username = authentication.getName();
         String ipAddress = request.getRemoteAddr();
         String userAgent = request.getHeader("User-Agent");
+        String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+        redisUtil.remove(token);
         log.info("User [{}] logged out from IP address {} using {}", username, ipAddress, userAgent);
 
         Map<Object, Object> rr = MapUtil.builder()
