@@ -44,6 +44,12 @@
 
     <dependencies>
 
+        <!-- 定时任务quartz框架 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
+
         <!-- 日志配置 -->
         <dependency>
             <groupId>org.projectlombok</groupId>

@@ -4,27 +4,63 @@ spring:
     application:
         name: book-system
     datasource:
-        name: druidDataSource
-        type: com.alibaba.druid.pool.DruidDataSource
-        druid:
-            driver-class-name: com.mysql.cj.jdbc.Driver
-            url: jdbc:mysql://127.0.0.1:3306/ws-book?useUnicode=true&zeroDateTimeBehavior=convertToNull&autoReconnect=true&characterEncoding=utf-8&useSSL=false
-            username: root
-            password: 2wsx#EDC
-            filters: stat,wall,config
-            max-active: 50
-            initial-size: 10
-            max-wait: 60000
-            min-idle: 1
-            time-between-eviction-runs-millis: 60000
-            min-evictable-idle-time-millis: 300000
-            validation-query: select 'x'
-            test-while-idle: true
-            test-on-borrow: false
-            test-on-return: false
-            pool-prepared-statements: true
-            max-open-prepared-statements: 50
-            max-pool-prepared-statement-per-connection-size: 20
+        url: jdbc:mysql://127.0.0.1:3306/ws-book?useUnicode=true&zeroDateTimeBehavior=convertToNull&autoReconnect=true&characterEncoding=utf-8&useSSL=false
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: root
+        password: 2wsx#EDC
+        # HikariPool 较佳配置
+        hikari:
+            # 客户端（即您）等待来自池的连接的最大毫秒数
+            connection-timeout: 60000
+            # 控制将测试连接的活动性的最长时间
+            validation-timeout: 3000
+            # 控制允许连接在池中保持空闲状态的最长时间
+            idle-timeout: 60000
+            login-timeout: 5
+            # 控制池中连接的最大生存期
+            max-lifetime: 60000
+            # 控制允许池达到的最大大小，包括空闲和使用中的连接
+            maximum-pool-size: 10
+            # 控制HikariCP尝试在池中维护的最小空闲连接数
+            minimum-idle: 10
+            # 控制默认情况下从池获得的连接是否处于只读模式
+            read-only: false
+            keepalive-time: 300
+            connection-test-query: select 'x'
+    quartz:
+        #相关属性配置
+        properties:
+            org:
+                quartz:
+                    scheduler:
+                        instanceName: local-scheduler-svc
+                        instanceId: AUTO
+                    jobStore:
+                        #表示 quartz 中的所有数据，比如作业和触发器的信息都保存在内存中（而不是数据库中）
+                        class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
+                        # 驱动配置
+                        driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+                        # 表前缀
+                        tablePrefix: QRTZ_
+                        #是否为集群
+                        isClustered: false
+                        clusterCheckinInterval: 10000
+                        useProperties: false
+                        dataSource: quartzDs
+                    #线程池配置
+                    threadPool:
+                        class: org.quartz.simpl.SimpleThreadPool
+                        #线程数
+                        threadCount: 10
+                        #优先级
+                        threadPriority: 5
+                        #线程继承上下文类加载器的初始化线程
+                        threadsInheritContextClassLoaderOfInitializingThread: true
+        #数据库方式
+        job-store-type: JDBC
+        #初始化表结构
+        jdbc:
+            initialize-schema: NEVER
     redis:
         host: 127.0.0.1
         password: 2wsx#EDC
