@@ -43,6 +43,12 @@
 
 
     <dependencies>
+        <!-- html解析-->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.17.1</version>
+        </dependency>
 
         <!-- 定时任务quartz框架 -->
         <dependency>

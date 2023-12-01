@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("quartz")
 public class QuartzController {
 
+    private static final String TIME_ZONE = "Asia/Shanghai";
+
     @Autowired
     private JobService jobService;
 
@@ -22,7 +24,7 @@ public class QuartzController {
         JobInfo jobInfo = new JobInfo();
         jobInfo.setJobName("test-job");
         jobInfo.setJobGroup("test");
-        jobInfo.setTimeZoneId("Asia/Shanghai");  //时区指定上海
+        jobInfo.setTimeZoneId(TIME_ZONE);  //时区指定上海
         jobInfo.setCron("0/5 * * * * ? ");  //每5秒执行一次
         Map<String, Object> params = new HashMap<>();
         //添加需要调用的接口信息
