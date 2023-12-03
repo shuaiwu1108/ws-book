@@ -1,0 +1,87 @@
+package com.shuaiwu.wsbook.utils;
+
+import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import javax.crypto.Mac;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * html解析工具
+ * <p>
+ * 2023/12/2 23:53
+ **/
+@Slf4j
+public class JsoupUtil {
+    // 获取笔趣阁-首页下的所有书籍类型
+    public static List<String> bqg_index(String html) throws IOException {
+        Document doc = Jsoup.parse(html);
+        Elements links = doc.select("div.nav ul li a[href]");
+        links.remove(0);
+        links.remove(links.size() - 1);
+        links.remove(links.size() - 1);
+        List<String> tmp = new ArrayList<>();
+        for (Element link : links) {
+            tmp.add(link.attr("href"));
+        }
+        return tmp;
+    }
+
+    // 获取笔趣阁-某个类别的所有书籍
+    public static List<String> bqg_type(String html) throws IOException {
+        Document doc = Jsoup.parse(html);
+        Elements links = doc.select("div.r ul li a[href]");
+        List<String> tmp = new ArrayList<>();
+        for (Element link : links) {
+            tmp.add(link.attr("href"));
+        }
+        return tmp;
+    }
+
+    // 获取某个书籍的目录
+    public static Map<String, String> bqg_catalogue(String html) throws IOException {
+        Map<String, String> map = new HashMap<>();
+        map.put("author", "未知");
+        Document doc = Jsoup.parse(html);
+        Element description = doc.getElementById("intro");
+        String descriptionText = description.text();
+        Elements bookNames = doc.select("div#info h1");
+        if(!bookNames.isEmpty()){
+            Element bookName = bookNames.get(0);
+            map.put("name", bookName.text());
+        }
+        Elements authors = doc.select("div#info p a");
+        if(!authors.isEmpty()){
+            Element element = authors.get(0);
+            map.put("author", element.text());
+        }
+        map.put("description", descriptionText);
+//        Elements links = doc.select("dl dd a[href]");
+//        for (Element link : links) {
+//            log.info(link.attr("href") + ", " + link.text());
+//        }
+//        map.put("catalogue", links.size() + );
+        return map;
+    }
+
+    public static String readHtml(String name){
+        String path = System.getProperty("user.dir").concat(File.separator)
+                .concat("src").concat(File.separator)
+                .concat("main").concat(File.separator)
+                .concat("resources").concat(File.separator)
+                .concat(name);
+        return path;
+    }
+
+    public static void main(String[] args) throws IOException {
+        bqg_catalogue(readHtml("tianhejianglin.html"));
+    }
+}

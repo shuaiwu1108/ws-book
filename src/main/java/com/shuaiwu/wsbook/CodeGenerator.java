@@ -30,7 +30,7 @@ public class CodeGenerator {
                 ;
             })
             .strategyConfig(builder -> {
-                builder.addInclude("roles_menu") // 设置需要生成的表名
+                builder.addInclude("book,author,dict") // 设置需要生成的表名
                     .entityBuilder().enableLombok().enableTableFieldAnnotation().enableFileOverride()
                     .controllerBuilder().enableRestStyle().enableFileOverride()
                     .serviceBuilder().enableFileOverride()

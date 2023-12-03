@@ -1,5 +1,7 @@
 package com.shuaiwu.wsbook.schedule;
 
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
@@ -23,5 +25,8 @@ public class HttpRemoteJob implements Job {
         String description = jobExecutionContext.getJobDetail().getDescription();
         log.info("组{}, 任务{}", groupName, jobName);
         log.info("Description：{}", description);
+        JSONObject obj = JSONUtil.parseObj(description);
+        String url = obj.getStr("callUrl");
+        log.info(url);
     }
 }
