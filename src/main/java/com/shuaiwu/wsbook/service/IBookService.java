@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IBookService extends IService<Book> {
 
+    void saveBook() throws InterruptedException;
 }

@@ -2,17 +2,25 @@ package com.shuaiwu.wsbook.schedule;
 
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.shuaiwu.wsbook.service.IBookCatalogService;
+import com.shuaiwu.wsbook.service.IBookService;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.quartz.JobKey;
-import org.quartz.TriggerKey;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Slf4j
 @DisallowConcurrentExecution // 禁止并发执行job
-public class HttpRemoteJob implements Job {
+@Component
+public class BqgJob implements Job {
+
+    @Autowired
+    private IBookService iBookService;
+    @Autowired
+    private IBookCatalogService iBookCatalogService;
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext){
@@ -23,10 +31,13 @@ public class HttpRemoteJob implements Job {
         String groupName = jobKey.getGroup();
         // JobDetail.description
         String description = jobExecutionContext.getJobDetail().getDescription();
-        log.info("组{}, 任务{}", groupName, jobName);
-        log.info("Description：{}", description);
-        JSONObject obj = JSONUtil.parseObj(description);
-        String url = obj.getStr("callUrl");
-        log.info(url);
+        log.info("任务组：{}, 任务名称：{}", groupName, jobName);
+        try {
+            iBookService.saveBook(); // 存储book
+            Thread.sleep(1000 * 5);
+            iBookCatalogService.saveBookCatalog(iBookService.list()); // 存储相应的章节
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

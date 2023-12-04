@@ -25,12 +25,8 @@ public class QuartzController {
         jobInfo.setJobName("test-job");
         jobInfo.setJobGroup("test");
         jobInfo.setTimeZoneId(TIME_ZONE);  //时区指定上海
-        jobInfo.setCron("0/5 * * * * ? ");  //每5秒执行一次
-        Map<String, Object> params = new HashMap<>();
-        //添加需要调用的接口信息
-        String callUrl = "https://www.xbiquge.bz";
-        params.put("callUrl", callUrl);
-        jobInfo.setJsonParams(params);
+        jobInfo.setCron("00 00 22 * * ? ");  //每天的23点执行
+        jobInfo.setJobClassName("com.shuaiwu.wsbook.schedule.BqgJob");
         jobService.save(jobInfo);
     }
 

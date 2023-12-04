@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @TableName("book_catalog")
-public class BookCatalog extends BaseModel {
+public class BookCatalog extends BaseModel implements Comparable<BookCatalog> {
 
     /**
      * 书籍id
@@ -31,8 +32,8 @@ public class BookCatalog extends BaseModel {
     /**
      * 卷名称
      */
-    @TableField("roll_name")
-    private String rollName;
+    @TableField("order_no")
+    private String orderNo;
 
     /**
      * 章节名称
@@ -45,4 +46,9 @@ public class BookCatalog extends BaseModel {
      */
     @TableField("catalog_url")
     private String catalogUrl;
+
+    @Override
+    public int compareTo(BookCatalog o) {
+        return Integer.compare(Integer.parseInt(this.getOrderNo()), Integer.parseInt(o.getOrderNo()));
+    }
 }

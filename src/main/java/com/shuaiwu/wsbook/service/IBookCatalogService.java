@@ -1,7 +1,9 @@
 package com.shuaiwu.wsbook.service;
 
+import com.shuaiwu.wsbook.entity.Book;
 import com.shuaiwu.wsbook.entity.BookCatalog;
 import com.baomidou.mybatisplus.extension.service.IService;
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IBookCatalogService extends IService<BookCatalog> {
 
+    void saveBookCatalog(List<Book> books) throws InterruptedException;
 }

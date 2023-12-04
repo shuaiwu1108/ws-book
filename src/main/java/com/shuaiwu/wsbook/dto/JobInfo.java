@@ -12,4 +12,6 @@ public class JobInfo {
     private String cron;// 定时任务的cron表达式
     private String timeZoneId;// 定制执行任务的时区
     private Date triggerTime;// 定时器时间（目前没用上）
+
+    private String jobClassName;
 }

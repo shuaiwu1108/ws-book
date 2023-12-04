@@ -2,11 +2,11 @@ package com.shuaiwu.wsbook.service.impl;
 
 import cn.hutool.json.JSONUtil;
 import com.shuaiwu.wsbook.dto.JobInfo;
-import com.shuaiwu.wsbook.schedule.HttpRemoteJob;
 import com.shuaiwu.wsbook.service.JobService;
 import java.util.Objects;
 import java.util.TimeZone;
 import org.quartz.CronScheduleBuilder;
+import org.quartz.Job;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
@@ -39,25 +39,33 @@ public class JobServiceImpl implements JobService {
         }
 
         //任务详情
-        JobDetail jobDetail = JobBuilder.newJob(HttpRemoteJob.class)
-            .withDescription(JSONUtil.toJsonStr(jobInfo.getJsonParams()))  //任务描述
-            .withIdentity(jobKey) //指定任务
-            .build();
-        //根据cron,TimeZone时区,指定执行计划
-        CronScheduleBuilder builder = CronScheduleBuilder.cronSchedule(jobInfo.getCron())
-            .inTimeZone(TimeZone.getTimeZone(jobInfo.getTimeZoneId()));
-
-        //触发器
-        Trigger trigger = TriggerBuilder.newTrigger()
-            .withIdentity(jobInfo.getJobName(), jobInfo.getJobGroup()).startNow()
-            .withSchedule(builder)
-            .build();
-
-        //添加任务
+        Class<Job> aClass = null;
         try {
-            scheduler.scheduleJob(jobDetail, trigger);
-        } catch (SchedulerException e) {
-            System.out.println(e.getMessage());
+            aClass = (Class<Job>) Class.forName(jobInfo.getJobClassName());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        if (aClass != null){
+            JobDetail jobDetail = JobBuilder.newJob(aClass)
+                .withDescription(JSONUtil.toJsonStr(jobInfo.getJsonParams()))  //任务描述
+                .withIdentity(jobKey) //指定任务
+                .build();
+            //根据cron,TimeZone时区,指定执行计划
+            CronScheduleBuilder builder = CronScheduleBuilder.cronSchedule(jobInfo.getCron())
+                .inTimeZone(TimeZone.getTimeZone(jobInfo.getTimeZoneId()));
+
+            //触发器
+            Trigger trigger = TriggerBuilder.newTrigger()
+                .withIdentity(jobInfo.getJobName(), jobInfo.getJobGroup()).startNow()
+                .withSchedule(builder)
+                .build();
+
+            //添加任务
+            try {
+                scheduler.scheduleJob(jobDetail, trigger);
+            } catch (SchedulerException e) {
+                System.out.println(e.getMessage());
+            }
         }
         return jobInfo;
     }
@@ -75,23 +83,29 @@ public class JobServiceImpl implements JobService {
             e.printStackTrace();
         }
         //定义作业的详细信息,并设置要执行的作业类名,设置作业名称及其组名
-        JobDetail jobDetail = JobBuilder.newJob(HttpRemoteJob.class)
-            .withDescription(JSONUtil.toJsonStr(jobInfo.getJsonParams()))
-            .withIdentity(jobKey)
-            .build()
-            ;
-        //简单触发器,着重与时间间隔
-        SimpleTrigger trigger = (SimpleTrigger) TriggerBuilder.newTrigger()
-            .withIdentity(jobInfo.getJobName(), jobInfo.getJobGroup())
-            .startAt(jobInfo.getTriggerTime())
-            .build();
-
+        Class<Job> aClass = null;
         try {
-            scheduler.scheduleJob(jobDetail, trigger);
-        } catch (SchedulerException e) {
-            System.out.println(e.getMessage());
+            aClass = (Class<Job>) Class.forName(jobInfo.getJobClassName());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
+        if (aClass != null) {
+            JobDetail jobDetail = JobBuilder.newJob(aClass)
+                .withDescription(JSONUtil.toJsonStr(jobInfo.getJsonParams()))
+                .withIdentity(jobKey)
+                .build();
+            //简单触发器,着重与时间间隔
+            SimpleTrigger trigger = (SimpleTrigger) TriggerBuilder.newTrigger()
+                .withIdentity(jobInfo.getJobName(), jobInfo.getJobGroup())
+                .startAt(jobInfo.getTriggerTime())
+                .build();
 
+            try {
+                scheduler.scheduleJob(jobDetail, trigger);
+            } catch (SchedulerException e) {
+                System.out.println(e.getMessage());
+            }
+        }
         return jobInfo;
     }
 

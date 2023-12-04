@@ -12,6 +12,7 @@ import com.shuaiwu.wsbook.utils.RedisUtil;
 import io.netty.util.internal.StringUtil;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 import javax.annotation.PostConstruct;
@@ -41,39 +42,6 @@ public class BookCatalogController {
 
     @RequestMapping("save")
     public void save() throws InterruptedException {
-        List<Book> books = iBookService.list();
-        for (Book b : books) {
-            if (b.getCatalogSize() > 0) {
-                iBookCatalogService.remove(new LambdaQueryWrapper<BookCatalog>().eq(BookCatalog::getBookId, b.getId())); //先删除，在保存
-                List<BookCatalog> tmps = new ArrayList<>();
-                String res = HttpUtil.get(b.getUrl(), "", null, "GBK");
-                if (StringUtil.isNullOrEmpty(res)){
-                    String bookId = b.getUrl().split("/")[4];
-                    log.error("书籍章节请求失败book:{}", bookId);
-                    RedisUtil.sSet(RedisKeys.BQG_BOOK_CATALOG_ERR.name(), bookId);
-                    continue;
-                }
-
-                List<String> catalogs = JsoupUtil.bqg_catalogue_single(res);
-                for (String catalog : catalogs){
-                    String[] t = catalog.split("======");
-                    BookCatalog bc = new BookCatalog();
-                    try {
-                        bc.setBookId(b.getId());
-                        bc.setCatalogName(t[0]);
-                        bc.setCatalogUrl(t[1]);
-                        bc.currentTime();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                        log.error(e.getMessage());
-                        continue;
-                    }
-                    tmps.add(bc);
-                }
-
-                Thread.sleep(1000 * 5);
-                iBookCatalogService.saveBatch(tmps);
-            }
-        }
+        iBookCatalogService.saveBookCatalog(iBookService.list());
     }
 }
