@@ -22,13 +22,7 @@ import lombok.Setter;
  */
 @Data
 @TableName("menu")
-public class Menu implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
-
+public class Menu extends BaseModel {
     @TableField("parent_id")
     private Long parentId;
 
@@ -51,16 +45,8 @@ public class Menu implements Serializable {
     private String component;
 
     @TableField("status")
-    private Byte status;
+    private String status;
 
     @TableField("hidden")
-    private Byte hidden;
-
-    @TableField("create_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
-
-    @TableField("update_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date updateTime;
+    private String hidden;
 }

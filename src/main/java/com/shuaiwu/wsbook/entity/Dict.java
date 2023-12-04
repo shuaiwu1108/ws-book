@@ -39,12 +39,6 @@ public class Dict implements Serializable {
     private String dictName;
 
     /**
-     * 备注
-     */
-    @TableField("description")
-    private String description;
-
-    /**
      * 排序
      */
     @TableField("sort")

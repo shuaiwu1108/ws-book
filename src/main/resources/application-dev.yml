@@ -58,7 +58,7 @@ spring:
                         threadsInheritContextClassLoaderOfInitializingThread: true
         #数据库方式
         job-store-type: JDBC
-        #初始化表结构
+        #初始化表结构， //TODO 如果项目是第一次启动,修改NEVER为ALWAYS
         jdbc:
             initialize-schema: NEVER
     redis:

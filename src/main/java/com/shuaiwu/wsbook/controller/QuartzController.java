@@ -22,8 +22,8 @@ public class QuartzController {
     @RequestMapping("create")
     public void create(){
         JobInfo jobInfo = new JobInfo();
-        jobInfo.setJobName("bqg-job");
-        jobInfo.setJobGroup("bqg");
+        jobInfo.setJobName("test-job");
+        jobInfo.setJobGroup("test");
         jobInfo.setTimeZoneId(TIME_ZONE);  //时区指定上海
         jobInfo.setCron("0/5 * * * * ? ");  //每5秒执行一次
         Map<String, Object> params = new HashMap<>();
@@ -36,7 +36,6 @@ public class QuartzController {
 
     @RequestMapping("delete")
     public void delete(){
-        jobService.remove("bqg-job","bqg");
-        log.info("组[{}], 任务[{}]已删除", "test", "test-job");
+        jobService.remove("test-job","test");
     }
 }

@@ -23,16 +23,7 @@ import org.springframework.data.annotation.Transient;
 @Getter
 @Setter
 @TableName("users")
-public class Users implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * 用户 ID
-     */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
-
+public class Users extends BaseModel {
     /**
      * 用户名
      */
@@ -49,7 +40,7 @@ public class Users implements Serializable {
      * 菜单状态（0：禁用，1：启用）
      */
     @TableField("status")
-    private Byte status;
+    private String status;
 
     @TableField("email")
     private String email;
@@ -59,18 +50,4 @@ public class Users implements Serializable {
 
     @TableField("avatar")
     private String avatar;
-
-    /**
-     * 创建时间
-     */
-    @TableField("create_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    @TableField("update_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date updateTime;
 }

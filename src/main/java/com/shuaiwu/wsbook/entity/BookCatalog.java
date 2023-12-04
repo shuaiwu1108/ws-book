@@ -5,35 +5,44 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
  * <p>
- * 作者
+ * 
  * </p>
  *
  * @author shuaiwu
- * @since 2023-12-02
+ * @since 2023-12-04
  */
 @Getter
 @Setter
-@TableName("author")
-public class Author extends BaseModel{
-    /**
-     * 笔名
-     */
-    @TableField("name")
-    private String name;
+@TableName("book_catalog")
+public class BookCatalog extends BaseModel {
 
     /**
-     * 作者介绍
+     * 书籍id
      */
-    @TableField("description")
-    private String description;
+    @TableField("book_id")
+    private Long bookId;
+
+    /**
+     * 卷名称
+     */
+    @TableField("roll_name")
+    private String rollName;
+
+    /**
+     * 章节名称
+     */
+    @TableField("catalog_name")
+    private String catalogName;
+
+    /**
+     * 章节地址
+     */
+    @TableField("catalog_url")
+    private String catalogUrl;
 }

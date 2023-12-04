@@ -29,7 +29,7 @@ import javax.net.ssl.TrustManager;
 public class HttpUtil {
 
     private final static int CONN_TIME_OUT = 5000;
-    private final static int READ_TIME_OUT = 1000 * 20;
+    private final static int READ_TIME_OUT = 1000 * 30;
 
     public static String get(String baseUrl, String method, Map<String, ?> params, String charset) {
         return get(baseUrl, method, params, charset, CONN_TIME_OUT, READ_TIME_OUT);
@@ -65,10 +65,9 @@ public class HttpUtil {
                 return stringBuffer.toString();
             }
             urlConnection.disconnect();
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            log.error("", e);
+            return null;
         }
         return null;
     }

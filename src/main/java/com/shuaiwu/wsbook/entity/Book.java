@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -23,13 +22,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @TableName("book")
-public class Book implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
-
+public class Book extends BaseModel {
     /**
      * 书名
      */
@@ -57,11 +50,6 @@ public class Book implements Serializable {
     @TableField("work_status")
     private String workStatus;
 
-    @TableField("create_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
-
-    @TableField("update_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date updateTime;
+    @TableField("catalog_size")
+    private Long catalogSize;
 }

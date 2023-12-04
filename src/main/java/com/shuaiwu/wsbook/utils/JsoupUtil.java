@@ -1,5 +1,6 @@
 package com.shuaiwu.wsbook.utils;
 
+import java.util.ListIterator;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -22,7 +23,7 @@ import java.util.Map;
 @Slf4j
 public class JsoupUtil {
     // 获取笔趣阁-首页下的所有书籍类型
-    public static List<String> bqg_index(String html) throws IOException {
+    public static List<String> bqg_index(String html){
         Document doc = Jsoup.parse(html);
         Elements links = doc.select("div.nav ul li a[href]");
         links.remove(0);
@@ -36,7 +37,7 @@ public class JsoupUtil {
     }
 
     // 获取笔趣阁-某个类别的所有书籍
-    public static List<String> bqg_type(String html) throws IOException {
+    public static List<String> bqg_type(String html){
         Document doc = Jsoup.parse(html);
         Elements links = doc.select("div.r ul li a[href]");
         List<String> tmp = new ArrayList<>();
@@ -47,7 +48,7 @@ public class JsoupUtil {
     }
 
     // 获取某个书籍的目录
-    public static Map<String, String> bqg_catalogue(String html) throws IOException {
+    public static Map<String, String> bqg_catalogue(String html){
         Map<String, String> map = new HashMap<>();
         map.put("author", "未知");
         Document doc = Jsoup.parse(html);
@@ -64,12 +65,20 @@ public class JsoupUtil {
             map.put("author", element.text());
         }
         map.put("description", descriptionText);
-//        Elements links = doc.select("dl dd a[href]");
-//        for (Element link : links) {
-//            log.info(link.attr("href") + ", " + link.text());
-//        }
-//        map.put("catalogue", links.size() + );
+        Elements links = doc.select("dl dd a[href]");
+//        for (Element link : links) {log.info(link.attr("href") + ", " + link.text());}
+        map.put("catalogueSize", links.size() + "");
         return map;
+    }
+
+    public static List<String> bqg_catalogue_single(String html){
+        Document doc = Jsoup.parse(html);
+        Elements links = doc.select("dl dd a[href]");
+        List<String> tmps = new ArrayList<>();
+        for (Element link : links) {
+            tmps.add(link.text().concat("======").concat(link.attr("href")));
+        }
+        return tmps;
     }
 
     public static String readHtml(String name){
@@ -79,9 +88,5 @@ public class JsoupUtil {
                 .concat("resources").concat(File.separator)
                 .concat(name);
         return path;
-    }
-
-    public static void main(String[] args) throws IOException {
-        bqg_catalogue(readHtml("tianhejianglin.html"));
     }
 }

@@ -22,16 +22,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @TableName("roles")
-public class Roles implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * 角色 ID
-     */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
-
+public class Roles extends BaseModel {
     /**
      * 角色名称
      */
@@ -48,19 +39,5 @@ public class Roles implements Serializable {
      * 菜单状态（0：禁用，1：启用）
      */
     @TableField("status")
-    private Byte status;
-
-    /**
-     * 创建时间
-     */
-    @TableField("create_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    @TableField("update_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date updateTime;
+    private String status;
 }
