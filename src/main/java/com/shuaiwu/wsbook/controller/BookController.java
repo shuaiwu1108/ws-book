@@ -1,6 +1,8 @@
 package com.shuaiwu.wsbook.controller;
 
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.shuaiwu.wsbook.entity.Author;
 import com.shuaiwu.wsbook.entity.Book;
 import com.shuaiwu.wsbook.service.IAuthorService;
@@ -12,6 +14,8 @@ import com.shuaiwu.wsbook.utils.RedisUtil;
 import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,14 +38,20 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/book")
 public class BookController {
-
-    @Autowired
-    private IAuthorService iAuthorService;
     @Autowired
     private IBookService iBookService;
 
     @RequestMapping("save")
     public void save() throws InterruptedException {
         iBookService.saveBook();
+    }
+
+    @PostMapping("list")
+    public Object list(@RequestBody JSONObject jsonObject){
+        return iBookService.list(
+            new LambdaQueryWrapper<Book>()
+                .eq(Book::getBookSource, jsonObject.getStr("source"))
+                .eq(Book::getBookType, jsonObject.getStr("bookType"))
+        );
     }
 }

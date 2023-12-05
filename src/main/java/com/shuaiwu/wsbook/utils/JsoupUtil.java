@@ -65,9 +65,14 @@ public class JsoupUtil {
             map.put("author", element.text());
         }
         map.put("description", descriptionText);
-        Elements links = doc.select("dl dd a[href]");
+//        Elements links = doc.select("dl dd a[href]");
 //        for (Element link : links) {log.info(link.attr("href") + ", " + link.text());}
-        map.put("catalogueSize", links.size() + "");
+//        map.put("catalogueSize", links.size() + "");
+
+        Element element = doc.select("div#fmimg img[src]").get(0);
+        String icon = element.attr("src");
+
+        map.put("icon", icon);
         return map;
     }
 

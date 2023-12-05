@@ -1,13 +1,7 @@
 package com.shuaiwu.wsbook.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,6 +26,9 @@ public class Book extends BaseModel {
     @TableField("url")
     private String url;
 
+    @TableField("icon")
+    private String icon;
+
     /**
      * 作者id
      */
@@ -45,11 +42,20 @@ public class Book extends BaseModel {
     private String description;
 
     /**
+     * 书籍类别
+     */
+    @TableField("book_type")
+    private String bookType;
+
+    /**
      * 作品状态
      */
     @TableField("work_status")
     private String workStatus;
 
-    @TableField("catalog_size")
-    private Long catalogSize;
+    @TableField("book_source")
+    private String bookSource;
+
+    @TableField("book_source_id")
+    private String bookSourceId;
 }

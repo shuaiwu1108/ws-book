@@ -1,7 +1,5 @@
 package com.shuaiwu.wsbook.schedule;
 
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import com.shuaiwu.wsbook.service.IBookCatalogService;
 import com.shuaiwu.wsbook.service.IBookService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +35,7 @@ public class BqgJob implements Job {
             Thread.sleep(1000 * 5);
             iBookCatalogService.saveBookCatalog(iBookService.list()); // 存储相应的章节
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            log.error("BqgJob执行异常", e);
         }
     }
 }
