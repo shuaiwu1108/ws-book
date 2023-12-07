@@ -8,6 +8,7 @@ import com.shuaiwu.wsbook.mapper.BookMapper;
 import com.shuaiwu.wsbook.service.IAuthorService;
 import com.shuaiwu.wsbook.service.IBookService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shuaiwu.wsbook.utils.CommonUtil;
 import com.shuaiwu.wsbook.utils.HttpUtil;
 import com.shuaiwu.wsbook.utils.JsoupUtil;
 import com.shuaiwu.wsbook.utils.RedisKeys;
@@ -97,7 +98,7 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
                 b.setDescription(stringMap.get("description"));
                 b.setCreateTime(new Date());
                 b.setUpdateTime(new Date());
-                b.setBookType(getCodeByName(type));
+                b.setBookType(CommonUtil.getCodeByName(type));
 
                 if(b.getBookType().equals("100007")){
                     b.setWorkStatus("300002");
@@ -115,24 +116,6 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
             }
 
             this.saveOrUpdateBatch(bookList);
-        }
-    }
-
-    private String getCodeByName(String name){
-        if (name.contains("xuanhuan")){
-            return "100001";
-        } else if (name.contains("xiuzhen")) {
-            return "100002";
-        } else if (name.contains("dushi")) {
-            return "100003";
-        } else if (name.contains("lishi")) {
-            return "100004";
-        } else if (name.contains("wangyou")) {
-            return "100005";
-        } else if (name.contains("kehuan")) {
-            return "100006";
-        } else {
-            return "100007";
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.shuaiwu.wsbook.service.impl;
 
+import cn.hutool.json.JSONObject;
 import com.shuaiwu.wsbook.entity.Book;
 import com.shuaiwu.wsbook.entity.BookCatalog;
 import com.shuaiwu.wsbook.mapper.BookCatalogMapper;
@@ -27,6 +28,18 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class BookCatalogServiceImpl extends ServiceImpl<BookCatalogMapper, BookCatalog> implements IBookCatalogService {
+
+    public String getBookCatalogContent(JSONObject jsonObject){
+        String catalotUrl = jsonObject.getStr("catalogUrl");
+        String res = HttpUtil.get(catalotUrl, "", null, "GBK");
+        if (StringUtil.isNullOrEmpty(res)){
+            log.error("章节内容请求失败，book:{}, 章节：{}", jsonObject.getStr("bookId"), jsonObject.getLong("id"));
+            return String.format("章节内容请求失败，book:{}, 章节：{}, 请联系管理人员", jsonObject.getStr("bookId"), jsonObject.getLong("id"));
+        }else{
+            String content = JsoupUtil.bqg_catalogue_content(res);
+            return content;
+        }
+    }
 
 
     @Override

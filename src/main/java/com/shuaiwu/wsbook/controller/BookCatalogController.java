@@ -48,11 +48,18 @@ public class BookCatalogController {
         iBookCatalogService.saveBookCatalog(iBookService.list());
     }
 
+    @PostMapping("one")
+    public Object one(@RequestBody JSONObject jsonObject){
+        return iBookCatalogService.getBookCatalogContent(jsonObject);
+    }
+
     @PostMapping("list")
     public Object list(@RequestBody JSONObject jsonObject){
-        return iBookCatalogService.list(
+        Long bookId = jsonObject.getLong("bookId");
+        List<BookCatalog> list = iBookCatalogService.list(
             new LambdaQueryWrapper<BookCatalog>()
-                .eq(BookCatalog::getBookId, jsonObject.getLong("bookId"))
+                .eq(BookCatalog::getBookId, bookId)
         );
+        return list;
     }
 }

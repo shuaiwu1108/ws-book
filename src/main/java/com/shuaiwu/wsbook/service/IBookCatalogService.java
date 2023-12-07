@@ -1,5 +1,6 @@
 package com.shuaiwu.wsbook.service;
 
+import cn.hutool.json.JSONObject;
 import com.shuaiwu.wsbook.entity.Book;
 import com.shuaiwu.wsbook.entity.BookCatalog;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -16,4 +17,6 @@ import java.util.List;
 public interface IBookCatalogService extends IService<BookCatalog> {
 
     void saveBookCatalog(List<Book> books) throws InterruptedException;
+
+    String getBookCatalogContent(JSONObject jsonObject);
 }

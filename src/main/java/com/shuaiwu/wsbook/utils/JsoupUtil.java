@@ -86,12 +86,9 @@ public class JsoupUtil {
         return tmps;
     }
 
-    public static String readHtml(String name){
-        String path = System.getProperty("user.dir").concat(File.separator)
-                .concat("src").concat(File.separator)
-                .concat("main").concat(File.separator)
-                .concat("resources").concat(File.separator)
-                .concat(name);
-        return path;
+    public static String bqg_catalogue_content(String html){
+        Document doc = Jsoup.parse(html);
+        Element content = doc.getElementById("content");
+        return content.text();
     }
 }

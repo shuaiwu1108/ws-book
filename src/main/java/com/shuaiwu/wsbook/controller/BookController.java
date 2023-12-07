@@ -3,15 +3,20 @@ package com.shuaiwu.wsbook.controller;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shuaiwu.wsbook.entity.Author;
 import com.shuaiwu.wsbook.entity.Book;
 import com.shuaiwu.wsbook.service.IAuthorService;
 import com.shuaiwu.wsbook.service.IBookService;
+import com.shuaiwu.wsbook.utils.CommonUtil;
 import com.shuaiwu.wsbook.utils.HttpUtil;
 import com.shuaiwu.wsbook.utils.JsoupUtil;
 import com.shuaiwu.wsbook.utils.RedisKeys;
 import com.shuaiwu.wsbook.utils.RedisUtil;
 import io.netty.util.internal.StringUtil;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,10 +53,18 @@ public class BookController {
 
     @PostMapping("list")
     public Object list(@RequestBody JSONObject jsonObject){
-        return iBookService.list(
+        String source = jsonObject.getStr("source");
+        String bookType = jsonObject.getStr("bookType");
+        int pageIndex = jsonObject.getInt("pageIndex");
+        int pageSize = jsonObject.getInt("pageSize");
+
+        Page<Book> page = new Page<>(pageIndex, pageSize);
+        IPage<Book> iPage = iBookService.page(page,
             new LambdaQueryWrapper<Book>()
-                .eq(Book::getBookSource, jsonObject.getStr("source"))
-                .eq(Book::getBookType, jsonObject.getStr("bookType"))
+                .eq(Book::getBookSource, source)
+                .eq(Book::getBookType, CommonUtil.getCodeByName(bookType))
         );
+        List<Book> records = iPage.getRecords();
+        return records;
     }
 }
