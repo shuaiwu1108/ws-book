@@ -49,12 +49,12 @@ public class BookCatalogController {
     }
 
     @PostMapping("one")
-    public Object one(@RequestBody JSONObject jsonObject){
+    public Object one(@RequestBody JSONObject jsonObject) {
         return iBookCatalogService.getBookCatalogContent(jsonObject);
     }
 
     @PostMapping("list")
-    public Object list(@RequestBody JSONObject jsonObject){
+    public Object list(@RequestBody JSONObject jsonObject) {
         Long bookId = jsonObject.getLong("bookId");
         List<BookCatalog> list = iBookCatalogService.list(
             new LambdaQueryWrapper<BookCatalog>()
