@@ -31,9 +31,9 @@ public class BqgJob implements Job {
         String description = jobExecutionContext.getJobDetail().getDescription();
         log.info("任务组：{}, 任务名称：{}", groupName, jobName);
         try {
-            iBookService.saveBook(); // 存储book
+            iBookService.saveBook(); // 存储book, Book信息存储数据库
             Thread.sleep(1000 * 5);
-            iBookCatalogService.saveBookCatalog(iBookService.list()); // 存储相应的章节
+            iBookCatalogService.saveBookCatalog(iBookService.list()); // 存储相应的章节，章节信息存储minio
         } catch (InterruptedException e) {
             log.error("BqgJob执行异常", e);
         }
