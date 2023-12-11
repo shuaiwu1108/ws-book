@@ -35,6 +35,47 @@ public class HttpUtil {
         return get(baseUrl, method, params, charset, CONN_TIME_OUT, READ_TIME_OUT);
     }
 
+    public static String getNotSSL(String baseUrl, String method, Map<String, ?> params, String charset) {
+        return getNotSSL(baseUrl, method, params, charset, CONN_TIME_OUT, READ_TIME_OUT);
+    }
+
+    public static String getNotSSL(String baseUrl, String method, Map<String, ?> params, String charset, int connTimeout,
+        int readTimeout) {
+        try {
+            String u = baseUrl.concat(method);
+            if (params != null && !params.isEmpty()){
+                String pp = URLUtil.buildQuery(params, Charset.forName(charset));
+                u = u.concat("?").concat(pp);
+            }
+            URL url = new URL(u);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("GET");
+            urlConnection.setRequestProperty("User-Agent", "PostmanRuntime/7.35.0");
+            urlConnection.setInstanceFollowRedirects(false);
+            urlConnection.setConnectTimeout(connTimeout);
+            urlConnection.setReadTimeout(readTimeout);
+            urlConnection.connect();
+            int responseCode = urlConnection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                InputStream inputStream = urlConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(inputStream, Charset.forName(charset)));
+                StringBuffer stringBuffer = new StringBuffer();
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(line);
+                }
+                bufferedReader.close();
+                return stringBuffer.toString();
+            }
+            urlConnection.disconnect();
+        } catch (Exception e) {
+            log.error("", e);
+            return null;
+        }
+        return null;
+    }
+
     public static String get(String baseUrl, String method, Map<String, ?> params, String charset, int connTimeout,
         int readTimeout) {
         try {

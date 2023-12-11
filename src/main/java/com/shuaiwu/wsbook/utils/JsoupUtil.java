@@ -1,5 +1,8 @@
 package com.shuaiwu.wsbook.utils;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ListIterator;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -89,6 +92,20 @@ public class JsoupUtil {
     public static String bqg_catalogue_content(String html){
         Document doc = Jsoup.parse(html);
         Element content = doc.getElementById("content");
-        return content.text();
+        return content.html().replaceAll("<br>\n<br>", "<br>").substring(28);
+    }
+
+    public static void main(String[] args) throws IOException {
+        String res = HttpUtil.get("https://www.xbiquge.bz/book/53099/36995449.html", "", null,
+            "GBK");
+        String content = bqg_catalogue_content(res);
+        try (InputStream is = new ByteArrayInputStream(content.getBytes())){
+            boolean b = MinioUtil.putObject("book", "53099/36995449.txt", is);
+            if (b){
+                System.out.println("存储成功");
+            }else{
+                System.out.println("存储失败");
+            }
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.shuaiwu.wsbook.service.impl;
 
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.shuaiwu.wsbook.entity.Author;
 import com.shuaiwu.wsbook.entity.Book;
@@ -63,9 +62,9 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
                 String bookId = book.split("/")[4];
                 //redis检查书籍Id是否重复
                 if (RedisUtil.sHasKey(RedisKeys.BQG_BOOK.name(), bookId)) {
-                    log.info("书籍{}已存在", bookId);
+//                    log.info("书籍{}已存在", bookId);
                     b = this.getOne(new LambdaQueryWrapper<Book>().eq(Book::getBookSource, "bqg").eq(Book::getBookSourceId, bookId));
-//                    continue;
+                    continue;
                 }else{
                     b = new Book();
                 }

@@ -1,8 +1,7 @@
 SET FOREIGN_KEY_CHECKS = 0;
 SET NAMES utf8mb4;
 
-DROP TABLE IF EXISTS `book`;
-CREATE TABLE `book` (
+CREATE TABLE IF NOT EXISTS `book` (
                         `id` bigint(20) NOT NULL AUTO_INCREMENT,
                         `name` varchar(255) DEFAULT NULL,
                         `url` varchar(255) DEFAULT NULL COMMENT '书籍地址',
@@ -18,8 +17,7 @@ CREATE TABLE `book` (
                         PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
-DROP TABLE IF EXISTS `author`;
-CREATE TABLE `author` (
+CREATE TABLE IF NOT EXISTS `author` (
                           `id` bigint(20) NOT NULL AUTO_INCREMENT,
                           `name` varchar(255) DEFAULT NULL,
                           `description` varchar(2000) DEFAULT NULL COMMENT '作者介绍',
@@ -28,8 +26,7 @@ CREATE TABLE `author` (
                           PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
-DROP TABLE IF EXISTS `dict`;
-CREATE TABLE `dict`  (
+CREATE TABLE IF NOT EXISTS `dict`  (
                            `id` bigint(20) NOT NULL AUTO_INCREMENT,
                            `dict_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '编码',
                            `dict_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '名称',
@@ -37,19 +34,17 @@ CREATE TABLE `dict`  (
                            PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
-INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) VALUES (1, '300001', '连载中', 1);
-INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) VALUES (2, '300002', '已完本', 2);
-INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) VALUES (3, '100001', '玄幻', 1);
-INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) VALUES (4, '100002', '修真', 2);
-INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) VALUES (5, '100003', '都市', 3);
-INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) VALUES (6, '100004', '历史', 4);
-INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) VALUES (7, '100005', '网游', 5);
-INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) VALUES (8, '100006', '科幻', 6);
-INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) VALUES (9, '100007', '完本', 7);
+INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 1, '300001', '连载中', 1 from dual where not exists(select 'x' from dict where id=1);
+INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 2, '300002', '已完本', 2 from dual where not exists(select 'x' from dict where id=1);
+INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 3, '100001', '玄幻', 1 from dual where not exists(select 'x' from dict where id=1);
+INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 4, '100002', '修真', 2 from dual where not exists(select 'x' from dict where id=1);
+INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 5, '100003', '都市', 3 from dual where not exists(select 'x' from dict where id=1);
+INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 6, '100004', '历史', 4 from dual where not exists(select 'x' from dict where id=1);
+INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 7, '100005', '网游', 5 from dual where not exists(select 'x' from dict where id=1);
+INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 8, '100006', '科幻', 6 from dual where not exists(select 'x' from dict where id=1);
+INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 9, '100007', '完本', 7 from dual where not exists(select 'x' from dict where id=1);
 
-
-DROP TABLE IF EXISTS `book_catalog`;
-CREATE TABLE `book_catalog` (
+CREATE TABLE IF NOT EXISTS `book_catalog` (
                                 `id` bigint(20) NOT NULL AUTO_INCREMENT,
                                 `book_id` bigint(20) DEFAULT NULL COMMENT '书籍id',
                                 `order_no` varchar(255) DEFAULT NULL COMMENT '卷名称',

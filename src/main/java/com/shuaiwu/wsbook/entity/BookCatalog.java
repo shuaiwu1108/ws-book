@@ -47,6 +47,12 @@ public class BookCatalog extends BaseModel implements Comparable<BookCatalog> {
     @TableField("catalog_url")
     private String catalogUrl;
 
+    /**
+     * 章节文件地址
+     */
+    @TableField("catalog_file_url")
+    private String catalogFileUrl;
+
     @Override
     public int compareTo(BookCatalog o) {
         return Integer.compare(Integer.parseInt(this.getOrderNo()), Integer.parseInt(o.getOrderNo()));

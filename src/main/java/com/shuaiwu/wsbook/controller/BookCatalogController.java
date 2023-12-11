@@ -20,6 +20,7 @@ import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +43,8 @@ public class BookCatalogController {
     private IBookService iBookService;
     @Autowired
     private IBookCatalogService iBookCatalogService;
+    @Value("${minio.url}")
+    private String minioUrl;
 
     @PostMapping("save")
     public void save() throws InterruptedException {
@@ -50,6 +53,7 @@ public class BookCatalogController {
 
     @PostMapping("one")
     public Object one(@RequestBody JSONObject jsonObject) {
+        jsonObject.set("minioUrl", minioUrl);
         return iBookCatalogService.getBookCatalogContent(jsonObject);
     }
 

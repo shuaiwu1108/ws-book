@@ -86,4 +86,8 @@ mybatis-plus:
     configuration:
         use-generated-keys: true
         map-underscore-to-camel-case: true
+minio:
+    url: http://127.0.0.1:9000
+    user: minio
+    password: 2wsx#EDC
 
