@@ -1,6 +1,8 @@
 package com.shuaiwu.wsbook.service.impl;
 
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.json.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.shuaiwu.wsbook.entity.Book;
 import com.shuaiwu.wsbook.entity.BookCatalog;
 import com.shuaiwu.wsbook.mapper.BookCatalogMapper;
@@ -14,9 +16,8 @@ import com.shuaiwu.wsbook.utils.RedisUtil;
 import io.netty.util.internal.StringUtil;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +57,35 @@ public class BookCatalogServiceImpl extends ServiceImpl<BookCatalogMapper, BookC
         }
     }
 
+    @Override
+    public Map<String, Integer> getCurrentLocation(JSONObject jsonObject) {
+        Long bookId = jsonObject.getLong("bookId");
+        long id = jsonObject.getLong("id");
+
+        List<BookCatalog> list = this.list(new LambdaQueryWrapper<BookCatalog>().eq(BookCatalog::getBookId, bookId));
+        Map<String, Integer> map = new HashMap<>();
+        map.put("total", list.size());
+        map.put("current", 1);
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getId() == id){
+                map.put("current", i + 1);
+                break;
+            }
+        }
+        return map;
+    }
+
+    @Override
+    public BookCatalog getCatalogByLocation(JSONObject jsonObject) {
+        Long bookId = jsonObject.getLong("bookId");
+        Integer current = jsonObject.getInt("current");
+        List<BookCatalog> list = this.list(new LambdaQueryWrapper<BookCatalog>().eq(BookCatalog::getBookId, bookId));
+
+        BookCatalog bookCatalog = list.get(current - 1);
+
+        return bookCatalog;
+    }
+
 
     @Override
     public void saveBookCatalog(List<Book> books){
@@ -70,7 +100,8 @@ public class BookCatalogServiceImpl extends ServiceImpl<BookCatalogMapper, BookC
             }
 
             List<String> catalogs = JsoupUtil.bqg_catalogue_single(res);
-            for (String catalog : catalogs){
+            for (int i = 0; i < catalogs.size(); i++){
+                String catalog = catalogs.get(i);
                 String[] t = catalog.split("======");
                 String catalogId = t[1].split("\\.")[0].replaceAll("=", "");
                 String value = bookId.concat("-").concat(catalogId);
