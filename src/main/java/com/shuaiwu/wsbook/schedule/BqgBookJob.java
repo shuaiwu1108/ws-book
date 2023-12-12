@@ -13,12 +13,10 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @DisallowConcurrentExecution // 禁止并发执行job
 @Component
-public class BqgJob implements Job {
+public class BqgBookJob implements Job {
 
     @Autowired
     private IBookService iBookService;
-    @Autowired
-    private IBookCatalogService iBookCatalogService;
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext){
@@ -27,13 +25,9 @@ public class BqgJob implements Job {
         String jobName = jobKey.getName();
         // 工作任务组名称
         String groupName = jobKey.getGroup();
-        // JobDetail.description
-        String description = jobExecutionContext.getJobDetail().getDescription();
         log.info("任务组：{}, 任务名称：{}", groupName, jobName);
         try {
             iBookService.saveBook(); // 存储book, Book信息存储数据库
-            Thread.sleep(1000 * 5);
-            iBookCatalogService.saveBookCatalog(iBookService.list()); // 存储相应的章节，章节信息存储minio
         } catch (InterruptedException e) {
             log.error("BqgJob执行异常", e);
         }

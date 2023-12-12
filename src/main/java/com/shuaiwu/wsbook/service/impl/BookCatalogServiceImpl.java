@@ -58,7 +58,7 @@ public class BookCatalogServiceImpl extends ServiceImpl<BookCatalogMapper, BookC
 
 
     @Override
-    public void saveBookCatalog(List<Book> books) throws InterruptedException {
+    public void saveBookCatalog(List<Book> books){
         for (Book b : books) {
             List<BookCatalog> tmps = new ArrayList<>();
             String res = HttpUtil.get(b.getUrl(), "", null, "GBK");
@@ -75,15 +75,23 @@ public class BookCatalogServiceImpl extends ServiceImpl<BookCatalogMapper, BookC
                 String catalogId = t[1].split("\\.")[0].replaceAll("=", "");
                 String value = bookId.concat("-").concat(catalogId);
                 if (RedisUtil.sHasKey(RedisKeys.BQG_BOOK_CATALOG.name(), value)){
-//                    log.warn("章节已存在：{}", value);
+                    log.warn("章节已存在：{}", value);
                     continue;
                 }
                 BookCatalog bc = new BookCatalog();
                 String catalogUrl = b.getUrl().concat(t[1]);
                 bc.setCatalogUrl(catalogUrl);
                 String catalogRes = HttpUtil.get(catalogUrl, "", null, "GBK");
+
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    log.error("", e);
+                }
+
                 if (StringUtil.isNullOrEmpty(catalogRes)) {
                     log.error("章节内容请求失败book:{}", value);
+                    RedisUtil.sSet(RedisKeys.BQG_BOOK_CATALOG_ERR.name(), value);
                     continue;
                 } else {
                     String catalogContent = JsoupUtil.bqg_catalogue_content(catalogRes);
@@ -97,6 +105,7 @@ public class BookCatalogServiceImpl extends ServiceImpl<BookCatalogMapper, BookC
                     } catch (Exception e){
                         log.error("", e);
                         log.error("章节内容存储minio失败,book:{}", value);
+                        RedisUtil.sSet(RedisKeys.BQG_BOOK_CATALOG_ERR.name(), value);
                         continue;
                     }
                 }
@@ -109,6 +118,7 @@ public class BookCatalogServiceImpl extends ServiceImpl<BookCatalogMapper, BookC
                 }catch (Exception e){
                     e.printStackTrace();
                     log.error("章节数据存储失败：{}", value);
+                    RedisUtil.sSet(RedisKeys.BQG_BOOK_CATALOG_ERR.name(), value);
                     continue;
                 }
                 //redis中存储章节id信息
@@ -116,10 +126,16 @@ public class BookCatalogServiceImpl extends ServiceImpl<BookCatalogMapper, BookC
                 tmps.add(bc);
             }
 
-            Thread.sleep(1000 * 1);
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                log.error("", e);
+            }
             // 将章节排序后，插入数据库
             Collections.sort(tmps);
             this.saveBatch(tmps);
+
+            log.info("book===>{} catalogs is save", b.getName());
         }
     }
 }

@@ -1,0 +1,55 @@
+2023-12-12 14:17:47.754  INFO 23624 --- [main] com.shuaiwu.wsbook.WsBookApplication     : Starting WsBookApplication using Java 1.8.0_202 on wu with PID 23624 (E:\Workspaces\ws-book\target\classes started by admin in E:\Workspaces\ws-book)
+2023-12-12 14:17:47.755  INFO 23624 --- [main] com.shuaiwu.wsbook.WsBookApplication     : The following 1 profile is active: "dev"
+2023-12-12 14:17:48.294  INFO 23624 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2023-12-12 14:17:48.296  INFO 23624 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-12-12 14:17:48.319  INFO 23624 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
+2023-12-12 14:17:48.673  INFO 23624 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9090 (http)
+2023-12-12 14:17:48.678  INFO 23624 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-12-12 14:17:48.678  INFO 23624 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2023-12-12 14:17:48.768  INFO 23624 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-12-12 14:17:48.768  INFO 23624 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 978 ms
+2023-12-12 14:17:49.064  INFO 23624 --- [main] c.a.d.s.b.a.DruidDataSourceAutoConfigure : Init DruidDataSource
+2023-12-12 14:17:49.123  INFO 23624 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2023-12-12 14:17:49.500  WARN 23624 --- [main] c.b.m.core.metadata.TableInfoHelper      : Can not find table primary key in Class: "com.shuaiwu.wsbook.entity.UsersRoles".
+2023-12-12 14:17:49.500  WARN 23624 --- [main] c.b.m.core.injector.DefaultSqlInjector   : class com.shuaiwu.wsbook.entity.UsersRoles ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-12-12 14:17:50.289  INFO 23624 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 7.15.0 by Redgate
+2023-12-12 14:17:50.289  INFO 23624 --- [main] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://10.10.0.2:3306/ws-book (MySQL 5.7)
+2023-12-12 14:17:50.891  INFO 23624 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 5 migrations (execution time 00:00.271s)
+2023-12-12 14:17:51.107  INFO 23624 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema `ws-book`: 20231212
+2023-12-12 14:17:51.135  INFO 23624 --- [main] o.f.core.internal.command.DbMigrate      : Schema `ws-book` is up to date. No migration necessary.
+2023-12-12 14:17:51.318  INFO 23624 --- [main] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2023-12-12 14:17:51.319  INFO 23624 --- [main] org.quartz.simpl.SimpleThreadPool        : Job execution threads will use class loader of thread: main
+2023-12-12 14:17:51.324  INFO 23624 --- [main] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2023-12-12 14:17:51.325  INFO 23624 --- [main] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
+2023-12-12 14:17:51.328  INFO 23624 --- [main] o.s.s.quartz.LocalDataSourceJobStore     : Using db table-based data access locking (synchronization).
+2023-12-12 14:17:51.329  INFO 23624 --- [main] o.s.s.quartz.LocalDataSourceJobStore     : JobStoreCMT initialized.
+2023-12-12 14:17:51.329  INFO 23624 --- [main] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'local-scheduler-svc' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.springframework.scheduling.quartz.LocalDataSourceJobStore' - which supports persistence. and is not clustered.
+
+2023-12-12 14:17:51.329  INFO 23624 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'local-scheduler-svc' initialized from an externally provided properties instance.
+2023-12-12 14:17:51.329  INFO 23624 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
+2023-12-12 14:17:51.329  INFO 23624 --- [main] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@3b9c9b8b
+2023-12-12 14:17:51.461  WARN 23624 --- [main] c.b.m.core.metadata.TableInfoHelper      : Can not find table primary key in Class: "com.shuaiwu.wsbook.entity.RolesMenu".
+2023-12-12 14:17:51.461  WARN 23624 --- [main] c.b.m.core.injector.DefaultSqlInjector   : class com.shuaiwu.wsbook.entity.RolesMenu ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-12-12 14:17:51.581  INFO 23624 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3578a45b, org.springframework.security.web.context.SecurityContextPersistenceFilter@4ac19bc6, org.springframework.security.web.header.HeaderWriterFilter@149b53fa, org.springframework.security.web.authentication.logout.LogoutFilter@3ee258, com.shuaiwu.wsbook.config.CustomAuthenticationTokenFilter@7d3bf8db, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@492c9892, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@55b62db8, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@24f177f5, org.springframework.security.web.session.SessionManagementFilter@49d543a9, org.springframework.security.web.access.ExceptionTranslationFilter@6bfdaa7a, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@75d539b9]
+2023-12-12 14:17:52.324  INFO 23624 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9090 (http) with context path ''
+2023-12-12 14:17:52.325  INFO 23624 --- [main] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2023-12-12 14:17:52.438  INFO 23624 --- [main] o.s.s.quartz.LocalDataSourceJobStore     : Freed 0 triggers from 'acquired' / 'blocked' state.
+2023-12-12 14:17:52.492  INFO 23624 --- [main] o.s.s.quartz.LocalDataSourceJobStore     : Recovering 0 jobs that were in-progress at the time of the last shut-down.
+2023-12-12 14:17:52.493  INFO 23624 --- [main] o.s.s.quartz.LocalDataSourceJobStore     : Recovery complete.
+2023-12-12 14:17:52.515  INFO 23624 --- [main] o.s.s.quartz.LocalDataSourceJobStore     : Removed 0 'complete' triggers.
+2023-12-12 14:17:52.541  INFO 23624 --- [main] o.s.s.quartz.LocalDataSourceJobStore     : Removed 0 stale fired job entries.
+2023-12-12 14:17:52.585  INFO 23624 --- [main] org.quartz.core.QuartzScheduler          : Scheduler local-scheduler-svc_$_NON_CLUSTERED started.
+2023-12-12 14:17:52.592  INFO 23624 --- [main] com.shuaiwu.wsbook.WsBookApplication     : Started WsBookApplication in 5.14 seconds (JVM running for 5.716)
+2023-12-12 14:31:46.750  INFO 23624 --- [SpringApplicationShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler local-scheduler-svc_$_NON_CLUSTERED paused.
+2023-12-12 14:31:46.884  INFO 23624 --- [SpringApplicationShutdownHook] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2023-12-12 14:31:46.884  INFO 23624 --- [SpringApplicationShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler local-scheduler-svc_$_NON_CLUSTERED shutting down.
+2023-12-12 14:31:46.884  INFO 23624 --- [SpringApplicationShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler local-scheduler-svc_$_NON_CLUSTERED paused.
+2023-12-12 14:31:46.884  INFO 23624 --- [SpringApplicationShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler local-scheduler-svc_$_NON_CLUSTERED shutdown complete.
+2023-12-12 14:31:46.887  INFO 23624 --- [SpringApplicationShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closing ...
+2023-12-12 14:31:46.891  INFO 23624 --- [SpringApplicationShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed

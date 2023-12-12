@@ -2,6 +2,8 @@ package com.shuaiwu.wsbook.controller;
 
 import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shuaiwu.wsbook.entity.Book;
 import com.shuaiwu.wsbook.entity.BookCatalog;
 import com.shuaiwu.wsbook.service.IBookCatalogService;
@@ -60,10 +62,13 @@ public class BookCatalogController {
     @PostMapping("list")
     public Object list(@RequestBody JSONObject jsonObject) {
         Long bookId = jsonObject.getLong("bookId");
-        List<BookCatalog> list = iBookCatalogService.list(
+        int pageIndex = jsonObject.getInt("pageIndex");
+        int pageSize = jsonObject.getInt("pageSize");
+        Page<BookCatalog> page = new Page<>(pageIndex, pageSize);
+        IPage<BookCatalog> ipage = iBookCatalogService.page(page,
             new LambdaQueryWrapper<BookCatalog>()
                 .eq(BookCatalog::getBookId, bookId)
         );
-        return list;
+        return ipage.getRecords();
     }
 }

@@ -31,6 +31,10 @@ public class HttpUtil {
     private final static int CONN_TIME_OUT = 5000;
     private final static int READ_TIME_OUT = 1000 * 30;
 
+    public static InputStream getInputStream(String baseUrl) {
+        return getInputStream(baseUrl, CONN_TIME_OUT, READ_TIME_OUT);
+    }
+
     public static String get(String baseUrl, String method, Map<String, ?> params, String charset) {
         return get(baseUrl, method, params, charset, CONN_TIME_OUT, READ_TIME_OUT);
     }
@@ -69,6 +73,29 @@ public class HttpUtil {
                 return stringBuffer.toString();
             }
             urlConnection.disconnect();
+        } catch (Exception e) {
+            log.error("", e);
+            return null;
+        }
+        return null;
+    }
+
+    public static InputStream getInputStream(String u, int connTimeout,
+                             int readTimeout) {
+        try {
+            URL url = new URL(u);
+            HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("GET");
+            urlConnection.setRequestProperty("User-Agent", "PostmanRuntime/7.35.0");
+            urlConnection.setInstanceFollowRedirects(false);
+            urlConnection.setConnectTimeout(connTimeout);
+            urlConnection.setReadTimeout(readTimeout);
+            urlConnection.connect();
+            int responseCode = urlConnection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                InputStream inputStream = urlConnection.getInputStream();
+                return inputStream;
+            }
         } catch (Exception e) {
             log.error("", e);
             return null;
@@ -162,7 +189,7 @@ public class HttpUtil {
 //        pp.put("b", "中文");
 
 
-        String res = get("https://www.xbiquge.bz", "/", null, "GBK");
+        String res = get("https://www.xbiquge.bz/files/article/image/4/4772/4772s.jpg", "", null, "GBK");
 //        String result = post("http://127.0.0.1:8080", "/test", pp);
 
         log.info(res);

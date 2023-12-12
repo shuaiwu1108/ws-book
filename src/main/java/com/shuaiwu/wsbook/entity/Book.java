@@ -29,6 +29,10 @@ public class Book extends BaseModel {
     @TableField("icon")
     private String icon;
 
+
+    @TableField("icon_file_url")
+    private String iconFileUrl;
+
     /**
      * 作者id
      */
