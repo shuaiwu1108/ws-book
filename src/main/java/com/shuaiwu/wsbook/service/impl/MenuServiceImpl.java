@@ -36,8 +36,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 
     private List<TreeMenu> query(Set<Long> ids){
         List<Menu> menuList = ids.isEmpty() ?
-            this.list(new LambdaQueryWrapper<Menu>().eq(Menu::getStatus, 1)) :
-            this.list(new LambdaQueryWrapper<Menu>().eq(Menu::getStatus, 1).in(Menu::getId, ids));
+            this.list() :
+            this.list(new LambdaQueryWrapper<Menu>().in(Menu::getId, ids));
         List<TreeMenu> treeMenuList = new ArrayList<>();
 
         for(Menu m : menuList){

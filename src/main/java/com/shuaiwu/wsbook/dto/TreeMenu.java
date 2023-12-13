@@ -8,13 +8,7 @@ import lombok.Data;
 public class TreeMenu {
     private Long id;
     private Long parentId;
+    private String code;
     private String name;
-    private String path;
-    private String redirect;
-    private String title;
-    private String icon;
-    private String component;
-    private Byte status;
-    private Byte hidden;
     private List<TreeMenu> children;
 }

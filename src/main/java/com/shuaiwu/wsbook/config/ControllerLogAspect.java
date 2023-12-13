@@ -31,9 +31,10 @@ public class ControllerLogAspect {
     }
 
     @Before("controllerLog()")
-    public void before(JoinPoint joinPoint) throws Exception {
+    public void before(JoinPoint joinPoint){
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = requestAttributes.getRequest();
+        log.info("Servlet url:{}", request.getRequestURL());
         String contentType = request.getContentType();
         printFormParam(request);
         printBodyParam(contentType, joinPoint);

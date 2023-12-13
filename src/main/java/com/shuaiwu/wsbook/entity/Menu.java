@@ -26,27 +26,9 @@ public class Menu extends BaseModel {
     @TableField("parent_id")
     private Long parentId;
 
+    @TableField("code")
+    private String code;
+
     @TableField("name")
     private String name;
-
-    @TableField("path")
-    private String path;
-
-    @TableField("redirect")
-    private String redirect;
-
-    @TableField("title")
-    private String title;
-
-    @TableField("icon")
-    private String icon;
-
-    @TableField("component")
-    private String component;
-
-    @TableField("status")
-    private String status;
-
-    @TableField("hidden")
-    private String hidden;
 }

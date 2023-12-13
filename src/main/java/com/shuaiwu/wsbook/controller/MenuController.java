@@ -1,14 +1,10 @@
 package com.shuaiwu.wsbook.controller;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.map.MapUtil;
-import com.shuaiwu.wsbook.dto.TreeMenu;
 import com.shuaiwu.wsbook.entity.Menu;
 import com.shuaiwu.wsbook.service.IMenuService;
 import io.swagger.v3.oas.annotations.Operation;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
