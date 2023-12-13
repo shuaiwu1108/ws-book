@@ -1,6 +1,11 @@
 package com.shuaiwu.wsbook.service.impl;
 
+import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.yulichang.wrapper.MPJLambdaWrapper;
+import com.shuaiwu.wsbook.dto.BookDTO;
 import com.shuaiwu.wsbook.entity.Author;
 import com.shuaiwu.wsbook.entity.Book;
 import com.shuaiwu.wsbook.mapper.BookMapper;
@@ -97,10 +102,10 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
 
                 String authorNameTmp = stringMap.get("author");
                 Author a;
-                a = iAuthorService.getOne(new LambdaQueryWrapper<Author>().eq(Author::getName, authorNameTmp));
+                a = iAuthorService.getOne(new LambdaQueryWrapper<Author>().eq(Author::getAuthorName, authorNameTmp));
                 if (a == null){
                     a = new Author();
-                    a.setName(authorNameTmp);
+                    a.setAuthorName(authorNameTmp);
                     a.setCreateTime(new Date());
                     a.setUpdateTime(new Date());
                     iAuthorService.save(a);
@@ -149,5 +154,24 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
 
             this.saveOrUpdateBatch(bookList);
         }
+    }
+
+    @Override
+    public IPage<BookDTO> getBookListAndAuthorName(JSONObject jsonObject) {
+        String source = jsonObject.getStr("source");
+        String bookType = jsonObject.getStr("bookType");
+        int pageIndex = jsonObject.getInt("pageIndex");
+        int pageSize = jsonObject.getInt("pageSize");
+
+        MPJLambdaWrapper<Book> leftJoin = new MPJLambdaWrapper<Book>()
+                .selectAll(Book.class)
+                .select(Author::getAuthorName)
+                .leftJoin(Author.class, Author::getId, Book::getAuthorId)
+                .eq(Book::getBookSource, source)
+                .eq(Book::getBookType, CommonUtil.getCodeByName(bookType));
+
+        IPage<BookDTO> pageDto = this.baseMapper.selectJoinPage(new Page<>(pageIndex, pageSize), BookDTO.class, leftJoin);
+
+        return pageDto;
     }
 }

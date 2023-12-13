@@ -5,8 +5,12 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.yulichang.query.MPJLambdaQueryWrapper;
+import com.github.yulichang.wrapper.MPJLambdaWrapper;
+import com.shuaiwu.wsbook.dto.BookDTO;
 import com.shuaiwu.wsbook.entity.Author;
 import com.shuaiwu.wsbook.entity.Book;
+import com.shuaiwu.wsbook.mapper.BookMapper;
 import com.shuaiwu.wsbook.service.IAuthorService;
 import com.shuaiwu.wsbook.service.IBookService;
 import com.shuaiwu.wsbook.utils.CommonUtil;
@@ -46,6 +50,9 @@ public class BookController {
     @Autowired
     private IBookService iBookService;
 
+    @Autowired
+    private BookMapper bookMapper;
+
     @RequestMapping("save")
     public void save() throws InterruptedException {
         iBookService.saveBook();
@@ -53,18 +60,7 @@ public class BookController {
 
     @PostMapping("list")
     public Object list(@RequestBody JSONObject jsonObject){
-        String source = jsonObject.getStr("source");
-        String bookType = jsonObject.getStr("bookType");
-        int pageIndex = jsonObject.getInt("pageIndex");
-        int pageSize = jsonObject.getInt("pageSize");
-
-        Page<Book> page = new Page<>(pageIndex, pageSize);
-        IPage<Book> iPage = iBookService.page(page,
-            new LambdaQueryWrapper<Book>()
-                .eq(Book::getBookSource, source)
-                .eq(Book::getBookType, CommonUtil.getCodeByName(bookType))
-        );
-        List<Book> records = iPage.getRecords();
-        return records;
+        IPage<BookDTO> pageDto = iBookService.getBookListAndAuthorName(jsonObject);
+        return pageDto.getRecords();
     }
 }

@@ -94,6 +94,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!--引入AOP依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
         <!-- spring security + jwt-->
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -124,7 +130,7 @@
             <version>${jwt.version}</version>
         </dependency>
 
-        <!-- mysql + druid + mybatis plus + lombok -->
+        <!-- mysql + druid + mybatis plus + mpj + lombok -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
@@ -135,6 +141,12 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatis.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.yulichang</groupId>
+            <artifactId>mybatis-plus-join-boot-starter</artifactId>
+            <version>1.4.5</version>
         </dependency>
 
         <dependency>

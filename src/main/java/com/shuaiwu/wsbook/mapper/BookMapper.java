@@ -1,5 +1,6 @@
 package com.shuaiwu.wsbook.mapper;
 
+import com.github.yulichang.base.MPJBaseMapper;
 import com.shuaiwu.wsbook.entity.Book;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -11,6 +12,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author shuaiwu
  * @since 2023-12-02
  */
-public interface BookMapper extends BaseMapper<Book> {
+public interface BookMapper extends MPJBaseMapper<Book> {
 
 }

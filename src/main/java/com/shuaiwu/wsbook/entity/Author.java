@@ -28,8 +28,8 @@ public class Author extends BaseModel{
     /**
      * 笔名
      */
-    @TableField("name")
-    private String name;
+    @TableField("author_name")
+    private String authorName;
 
     /**
      * 作者介绍
