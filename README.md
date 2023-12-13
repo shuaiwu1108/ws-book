@@ -1,6 +1,6 @@
-## Java + Vue 后台管理系统
+# 通用的后台管理系统
 
-### 后端
+## 后端
 
 * Spring Boot
 * Spring Security
@@ -10,12 +10,14 @@
 * Mysql
 * Flyway
 
-### 前端
+## 前端
 
-* 在 `git@github.com:PanJiaChen/vue-admin-template.git` 项目上做的修改
-* Vue
-* Element-UI
+* [前端](https://github.com/shuaiwu1108/ws-book-front)
 
-### 实现的功能
 
-用户管理、角色管理、***菜单管理（未完成）***
+## 实现的功能
+
+* 用户管理、角色管理、菜单管理、权限管理
+
+## 页面
+![img.png](img.png)
