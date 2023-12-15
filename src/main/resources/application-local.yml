@@ -79,6 +79,8 @@ spring:
         locations: classpath:db/migration
         enabled: true
         baselineOnMigrate: true
+    elasticsearch:
+        uris: http://192.168.0.244:9200
 token:
     expiration: 7200 #2小时过期
 mybatis-plus:
@@ -90,4 +92,3 @@ minio:
     url: http://192.168.0.244:9000
     user: minio
     password: 2wsx#EDC
-
