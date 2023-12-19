@@ -1,6 +1,5 @@
 package com.shuaiwu.wsbook.service.impl;
 
-import cn.hutool.core.map.MapUtil;
 import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.shuaiwu.wsbook.entity.Book;
@@ -8,17 +7,14 @@ import com.shuaiwu.wsbook.entity.BookCatalog;
 import com.shuaiwu.wsbook.mapper.BookCatalogMapper;
 import com.shuaiwu.wsbook.service.IBookCatalogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shuaiwu.wsbook.utils.HttpUtil;
-import com.shuaiwu.wsbook.utils.JsoupUtil;
-import com.shuaiwu.wsbook.utils.MinioUtil;
-import com.shuaiwu.wsbook.utils.RedisKeys;
-import com.shuaiwu.wsbook.utils.RedisUtil;
+import com.shuaiwu.wscommon.utils.*;
 import io.netty.util.internal.StringUtil;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.*;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -32,6 +28,13 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class BookCatalogServiceImpl extends ServiceImpl<BookCatalogMapper, BookCatalog> implements IBookCatalogService {
+
+    @Value("${minio.url}")
+    private String minioUrl;
+    @Value("${minio.user}")
+    private String minioUser;
+    @Value("${minio.password}")
+    private String minioPass;
 
     public String getBookCatalogContent(JSONObject jsonObject){
         String catalogFileUrl = jsonObject.getStr("catalogFileUrl");
@@ -89,6 +92,7 @@ public class BookCatalogServiceImpl extends ServiceImpl<BookCatalogMapper, BookC
 
     @Override
     public void saveBookCatalog(List<Book> books){
+        MinioUtil.init(minioUrl, minioUser, minioPass);
         for (Book b : books) {
             List<BookCatalog> tmps = new ArrayList<>();
             String res = HttpUtil.get(b.getUrl(), "", null, "GBK");

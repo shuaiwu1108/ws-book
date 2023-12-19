@@ -12,6 +12,7 @@ import com.shuaiwu.wsbook.mapper.BookMapper;
 import com.shuaiwu.wsbook.service.IAuthorService;
 import com.shuaiwu.wsbook.service.IBookService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shuaiwu.wscommon.utils.*;
 import com.shuaiwu.wsbook.utils.*;
 import io.netty.util.internal.StringUtil;
 
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -40,9 +42,16 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
 
     @Autowired
     private IAuthorService iAuthorService;
+    @Value("${minio.url}")
+    private String minioUrl;
+    @Value("${minio.user}")
+    private String minioUser;
+    @Value("${minio.password}")
+    private String minioPass;
 
     @Override
     public void saveBook() {
+        MinioUtil.init(minioUrl, minioUser, minioPass);
         // 开始拉取并解析存储小说数据
         String res = HttpUtil.get("https://www.xbiquge.bz", "/", null, "GBK");
         List<String> types = JsoupUtil.bqg_index(res);
