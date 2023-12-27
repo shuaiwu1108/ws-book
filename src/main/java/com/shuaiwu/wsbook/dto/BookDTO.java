@@ -1,11 +1,6 @@
 package com.shuaiwu.wsbook.dto;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.shuaiwu.wsbook.entity.BaseModel;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * <p>

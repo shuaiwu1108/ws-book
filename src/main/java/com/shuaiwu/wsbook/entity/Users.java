@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.shuaiwu.wscommon.dto.BaseModel;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;

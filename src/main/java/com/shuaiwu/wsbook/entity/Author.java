@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.shuaiwu.wscommon.dto.BaseModel;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,7 +25,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @TableName("author")
-public class Author extends BaseModel{
+public class Author extends BaseModel {
     /**
      * 笔名
      */
