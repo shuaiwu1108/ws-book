@@ -25,6 +25,7 @@ INSERT INTO `menu` VALUES (4, 3, 'user', '用户管理', '2023-12-13 08:34:09', 
 INSERT INTO `menu` VALUES (5, 3, 'role', '角色管理', '2023-12-13 08:01:24', '2023-12-13 08:01:24');
 INSERT INTO `menu` VALUES (6, 3, 'menu', '菜单管理', '2023-12-13 08:01:30', '2023-12-13 08:01:30');
 INSERT INTO `menu` VALUES (9, NULL, 'form', '表单', '2023-12-13 08:00:19', '2023-12-13 08:00:19');
+INSERT INTO `menu` VALUES (10, NULL, 'video', '监控视频', '2023-12-13 08:00:19', '2023-12-13 08:00:19');
 
 -- ----------------------------
 -- Table structure for roles_menu

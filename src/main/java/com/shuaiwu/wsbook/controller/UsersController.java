@@ -178,7 +178,6 @@ public class UsersController {
 
     @Operation(summary = "修改用户")
     @PostMapping("update")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Object update(@RequestBody Users users){
         users.setUpdateTime(new Date());
         users.setPassword(passwordEncoder.encode(users.getPassword()));

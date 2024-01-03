@@ -52,6 +52,7 @@ CREATE TABLE `users`  (
                           `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
                           `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '邮箱',
                           `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '手机号',
+                          `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户图标',
                           `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态（0：禁用，1：启用）',
                           `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                           `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -61,8 +62,8 @@ CREATE TABLE `users`  (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (1, 'admin', 'admin', '1308802625@qq.com', '13476217399', 1, '2023-09-24 19:40:14', '2023-11-03 09:45:17');
-INSERT INTO `users` VALUES (2, 'test', 'test', '1308802625@qq.com', '13476217399', 1, '2023-09-24 19:46:38', '2023-11-03 09:29:36');
-INSERT INTO `users` VALUES (3, 'dev', 'dev', '1308802625@qq.com', '13476217399', 1, '2023-11-03 15:09:06', '2023-11-03 15:09:06');
+INSERT INTO `users` VALUES (1, 'admin', 'admin', '1308802625@qq.com', '13476217399', null, 1, '2023-09-24 19:40:14', '2023-11-03 09:45:17');
+INSERT INTO `users` VALUES (2, 'test', 'test', '1308802625@qq.com', '13476217399', null, 1, '2023-09-24 19:46:38', '2023-11-03 09:29:36');
+INSERT INTO `users` VALUES (3, 'dev', 'dev', '1308802625@qq.com', '13476217399', null, 1, '2023-11-03 15:09:06', '2023-11-03 15:09:06');
 
 SET FOREIGN_KEY_CHECKS = 1;

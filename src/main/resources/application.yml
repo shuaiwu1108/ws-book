@@ -1,5 +1,5 @@
 spring:
     profiles:
-        active: local
+        active: dev
 doc:
     url: http://127.0.0.1:9090
