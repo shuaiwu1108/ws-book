@@ -35,6 +35,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -72,6 +73,9 @@ public class UsersController {
     private IRolesMenuService iRolesMenuService;
     @Autowired
     private IMenuService iMenuService;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("info")
     public Object getInfo(Authentication authentication){
@@ -151,7 +155,6 @@ public class UsersController {
     @RequestMapping("all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Object all(HttpServletRequest httpServletRequest){
-        Map<String, String[]> params = httpServletRequest.getParameterMap();
         Map<Object, Object> rr = MapUtil.builder().put("data", iUsersService.list())
             .put("code", 20000)
             .put("message", "成功").build();
@@ -163,6 +166,7 @@ public class UsersController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Object put(@RequestBody Users users){
         users.setCreateTime(new Date());
+        users.setPassword(passwordEncoder.encode(users.getPassword()));
         boolean flag = iUsersService.save(users);
         Map<Object, Object> rr = MapUtil.builder()
             .put("code", 20000)
@@ -177,6 +181,7 @@ public class UsersController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Object update(@RequestBody Users users){
         users.setUpdateTime(new Date());
+        users.setPassword(passwordEncoder.encode(users.getPassword()));
         boolean flag = iUsersService.saveOrUpdate(users);
         Map<Object, Object> rr = MapUtil.builder()
             .put("code", 20000)
@@ -224,7 +229,7 @@ public class UsersController {
         String userAgent = request.getHeader("User-Agent");
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
         redisUtil.remove(token);
-        log.info("User [{}] logged out from IP address {} using {}", username, ipAddress, userAgent);
+        log.info("用户 [{}] 已登出 IP {} 客户端 {}", username, ipAddress, userAgent);
 
         Map<Object, Object> rr = MapUtil.builder()
             .put("data", "登出完毕")

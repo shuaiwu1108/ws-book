@@ -1,7 +1,11 @@
 package com.shuaiwu.wsbook.config;
 
+import com.shuaiwu.wsbook.utils.TokenUtil;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -9,8 +13,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 @Configuration
 @EnableWebSecurity
@@ -20,11 +27,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private DataSource dataSource;
 
     @Autowired
-    private CustomAuthenticationTokenFilter customAuthenticationTokenFilter;
+    private TokenUtil tokenUtil;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    @Qualifier("handlerExceptionResolver")
+    private HandlerExceptionResolver resolver;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         http
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//会话管理
             .and()
@@ -38,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //            .and()
 //            .logout().logoutUrl("/api/user/logout").permitAll()
 //            .and()
-            .addFilterAfter(customAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterAfter(new CustomAuthenticationTokenFilter(tokenUtil,userDetailsService,resolver), UsernamePasswordAuthenticationFilter.class)
             .csrf().disable()
             ;
     }
@@ -50,8 +63,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authoritiesByUsernameQuery("SELECT u.username,r.rolecode role FROM users_roles ur"
                 + " join users u on ur.user_id=u.id and u.status=1 "
                 + " join roles r on ur.role_id=r.id and r.status=1 "
-                + " WHERE u.username=?")
-            .passwordEncoder(NoOpPasswordEncoder.getInstance());
+                + " where u.username=?")
+            .passwordEncoder(passwordEncoder());
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
 }
 
