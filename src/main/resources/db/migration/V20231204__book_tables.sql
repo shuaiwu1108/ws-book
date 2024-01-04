@@ -35,14 +35,17 @@ CREATE TABLE IF NOT EXISTS `dict`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 1, '300001', '连载中', 1 from dual where not exists(select 'x' from dict where id=1);
-INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 2, '300002', '已完本', 2 from dual where not exists(select 'x' from dict where id=1);
-INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 3, '100001', '玄幻', 1 from dual where not exists(select 'x' from dict where id=1);
-INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 4, '100002', '修真', 2 from dual where not exists(select 'x' from dict where id=1);
-INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 5, '100003', '都市', 3 from dual where not exists(select 'x' from dict where id=1);
-INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 6, '100004', '历史', 4 from dual where not exists(select 'x' from dict where id=1);
-INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 7, '100005', '网游', 5 from dual where not exists(select 'x' from dict where id=1);
-INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 8, '100006', '科幻', 6 from dual where not exists(select 'x' from dict where id=1);
-INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 9, '100007', '完本', 7 from dual where not exists(select 'x' from dict where id=1);
+INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 2, '300002', '已完本', 2 from dual where not exists(select 'x' from dict where id=2);
+INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 3, '100001', '玄幻', 1 from dual where not exists(select 'x' from dict where id=3);
+INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 4, '100002', '修真', 2 from dual where not exists(select 'x' from dict where id=4);
+INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 5, '100003', '都市', 3 from dual where not exists(select 'x' from dict where id=5);
+INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 6, '100004', '历史', 4 from dual where not exists(select 'x' from dict where id=6);
+INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 7, '100005', '网游', 5 from dual where not exists(select 'x' from dict where id=7);
+INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 8, '100006', '科幻', 6 from dual where not exists(select 'x' from dict where id=8);
+INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 9, '100007', '完本', 7 from dual where not exists(select 'x' from dict where id=9);
+INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 10, '200001', '设备作为客户端', 1 from dual where not exists(select 'x' from dict where id=10);
+INSERT INTO `dict` (`id`, `dict_code`, `dict_name`, `sort`) select 11, '200002', '设备作为服务端', 2 from dual where not exists(select 'x' from dict where id=11);
+
 
 CREATE TABLE IF NOT EXISTS `book_catalog` (
                                 `id` bigint(20) NOT NULL AUTO_INCREMENT,
