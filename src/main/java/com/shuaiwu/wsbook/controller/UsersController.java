@@ -196,7 +196,7 @@ public class UsersController {
         Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                 loginParams.get("username"),
-                passwordEncoder.encode(loginParams.get("password"))
+                loginParams.get("password")
             )
         );
 
