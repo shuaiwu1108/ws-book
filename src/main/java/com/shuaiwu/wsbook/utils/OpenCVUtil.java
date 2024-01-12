@@ -1,6 +1,8 @@
 package com.shuaiwu.wsbook.utils;
 
+import com.shuaiwu.wscommon.utils.CommonUtil;
 import org.opencv.core.*;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
@@ -13,7 +15,12 @@ import java.util.List;
 public class OpenCVUtil {
 
     // 1.图片预处理与车牌定位
-    public static Mat imagePreprocess(Mat image) {
+    public static Mat imagePreprocess() {
+        // 加载 OpenCV 库
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+
+        Mat image = Imgcodecs.imread(CommonUtil.pathConcat("001.jpg"));
+
         // 将图像转换为 hsv 图像空间
         Mat hsv = new Mat();
         Imgproc.cvtColor(image, hsv, Imgproc.COLOR_BGR2HSV);
@@ -51,4 +58,8 @@ public class OpenCVUtil {
     // 车牌切割
 
     // 车牌字符识别
+
+    public static void main(String[] args) {
+        imagePreprocess();
+    }
 }
